@@ -1,5 +1,5 @@
 import { ArrowUpRight, Check, ShoppingBag, Star } from "lucide-react";
-import { useEffect, useRef, useState, type CSSProperties } from "react";
+import { useEffect, useRef, useState } from "react";
 import { Link } from "react-router-dom";
 import { formatPrice, imageUrl } from "../lib/site";
 import type { Product } from "../types";
@@ -9,27 +9,18 @@ import { ImageWithLoader } from "./ImageWithLoader";
 export function ProductCard({ product }: { product: Product }) {
   const { addItem } = useCart();
   const [added, setAdded] = useState(false);
-  const [imageIndex, setImageIndex] = useState(0);
-  const [hovered, setHovered] = useState(false);
-  const [inView, setInView] = useState(false);
+  const [shift, setShift] = useState(0);
+  const [scrubbing, setScrubbing] = useState(false);
   const timer = useRef<number>();
-  const cardRef = useRef<HTMLElement>(null);
   const images = (product.product_images.length ? product.product_images : [{ image_path: product.main_image, alt_text: product.name, sort_order: 0 }]).slice(0, 4);
+  const imageIndex = Math.round(shift);
   useEffect(() => () => window.clearTimeout(timer.current), []);
-  useEffect(() => {
-    const node = cardRef.current;
-    if (!node || typeof IntersectionObserver === "undefined") return;
-    const observer = new IntersectionObserver(([entry]) => setInView(entry.isIntersecting), { threshold: 0.45 });
-    observer.observe(node);
-    return () => observer.disconnect();
-  }, []);
-  useEffect(() => {
-    if (images.length < 2 || hovered) return;
-    if (!inView && typeof IntersectionObserver !== "undefined") return;
-    if (typeof window.matchMedia === "function" && window.matchMedia("(prefers-reduced-motion: reduce)").matches) return;
-    const cycle = window.setTimeout(() => setImageIndex((current) => (current + 1) % images.length), 3200);
-    return () => window.clearTimeout(cycle);
-  }, [hovered, imageIndex, images.length, inView]);
+  const scrub = (clientX: number, target: HTMLElement) => {
+    if (images.length < 2) return;
+    const rect = target.getBoundingClientRect();
+    const progress = Math.min(1, Math.max(0, (clientX - rect.left) / Math.max(rect.width, 1)));
+    setShift(progress * (images.length - 1));
+  };
   const addToCart = () => {
     addItem(product);
     setAdded(true);
@@ -41,14 +32,16 @@ export function ProductCard({ product }: { product: Product }) {
     : 0;
   const rounded = Math.round(product.rating_average || 0);
   return (
-    <article
-      className="product-card"
-      ref={cardRef}
-      onMouseEnter={() => { setHovered(true); if (images.length > 1) setImageIndex(1); }}
-      onMouseLeave={() => { setHovered(false); setImageIndex(0); }}
-    >
-      <Link to={`/products/${product.slug}`} className="product-image-wrap" aria-label={`${product.name} ürününü incele`}>
-        <span className="product-image-track" style={{ "--image-index": String(imageIndex) } as CSSProperties}>
+    <article className={`product-card${scrubbing ? " is-scrubbing" : ""}`}>
+      <Link
+        to={`/products/${product.slug}`}
+        className="product-image-wrap"
+        aria-label={`${product.name} ürününü incele`}
+        onMouseEnter={() => setScrubbing(true)}
+        onMouseMove={(event) => scrub(event.clientX, event.currentTarget)}
+        onMouseLeave={() => { setScrubbing(false); setShift(0); }}
+      >
+        <span className="product-image-track" style={{ transform: `translate3d(${-shift * 100}%, 0, 0)` }}>
           {images.map((image, index) => (
             <ImageWithLoader
               key={`${image.image_path}-${index}`}

@@ -15,7 +15,6 @@ import { PageMeta } from "../components/PageMeta";
 import { ProductCard } from "../components/ProductCard";
 import { ImageWithLoader } from "../components/ImageWithLoader";
 import { ProductSlider } from "../components/ProductSlider";
-import { Reveal } from "../components/Reveal";
 import { useCatalog } from "../context/CatalogContext";
 import { featuredStoreReviews } from "../data/reviews";
 import { formatPrice, imageUrl, whatsappUrl } from "../lib/site";
@@ -57,7 +56,6 @@ export default function Home() {
             items={heroProducts}
             getKey={(product) => product.id}
             autoPlayMs={4800}
-            variant="page"
             renderSlide={(product) => {
               const discount = product.price != null && product.old_price != null && product.old_price > product.price
                 ? Math.round((1 - product.price / product.old_price) * 100)
@@ -89,15 +87,15 @@ export default function Home() {
         </div>
       </section>
 
-      <Reveal as="div" className="service-strip" direction="up">
+      <div className="service-strip">
         <div className="container">
           <div><BadgeCheck /><span><strong>Seçili modeller</strong><small>Güncel katalog</small></span></div>
           <div><PackageCheck /><span><strong>Kolay sepet</strong><small>Tek listede toplayın</small></span></div>
           <div><MessageCircle /><span><strong>Hızlı iletişim</strong><small>WhatsApp üzerinden sipariş</small></span></div>
         </div>
-      </Reveal>
+      </div>
 
-      <Reveal as="section" id="categories" className="section container" direction="left">
+      <section id="categories" className="section container">
         <div className="section-head">
           <div>
             <span className="eyebrow">KATEGORİLER</span>
@@ -105,7 +103,7 @@ export default function Home() {
           </div>
           <Link to="/categories">Tümü <ArrowRight size={17} /></Link>
         </div>
-        <div className="category-grid reveal-stagger">
+        <div className="category-grid">
           {categories.map((item, i) => {
             const Icon = icons[i] || Sparkles;
             const count = products.filter((product) => product.category_id === item.id || product.category?.slug === item.slug).length;
@@ -119,9 +117,9 @@ export default function Home() {
             );
           })}
         </div>
-      </Reveal>
+      </section>
 
-      <Reveal as="section" className="section section-muted" direction="right">
+      <section className="section section-muted">
         <div className="container">
           <div className="section-head">
             <div>
@@ -134,22 +132,14 @@ export default function Home() {
           {loading ? (
             <div className="loading-grid">Ürünler yükleniyor…</div>
           ) : (
-            <ProductSlider
-              className="featured-slider"
-              items={featured}
-              getKey={(product) => product.id}
-              variant="peek"
-              autoPlayMs={4200}
-              previousLabel="Önceki öne çıkan ürün"
-              nextLabel="Sonraki öne çıkan ürün"
-              dotLabel={(index) => `${index + 1}. öne çıkan ürünü göster`}
-              renderSlide={(product) => <ProductCard product={product} />}
-            />
+            <div className="product-grid home-featured-grid">
+              {featured.map((product) => <ProductCard key={product.id} product={product} />)}
+            </div>
           )}
         </div>
-      </Reveal>
+      </section>
 
-      <Reveal as="section" className="section container" direction="up">
+      <section className="section container">
         <div className="section-head">
           <div>
             <span className="eyebrow">YORUMLAR</span>
@@ -157,7 +147,7 @@ export default function Home() {
           </div>
           <Link to="/products">Ürünleri gör <ArrowRight size={17} /></Link>
         </div>
-        <div className="testimonial-grid reveal-stagger">
+        <div className="testimonial-grid">
           {featuredStoreReviews.map((review) => (
             <Link to={`/products/${review.productSlug}#reviews`} className="testimonial-card" key={review.id}>
               <div className="review-stars" aria-hidden="true">
@@ -173,7 +163,7 @@ export default function Home() {
             </Link>
           ))}
         </div>
-      </Reveal>
+      </section>
     </>
   );
 }
