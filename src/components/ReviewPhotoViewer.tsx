@@ -23,6 +23,7 @@ function formatDate(value: string) {
 export function ReviewPhotoViewer({ items, index, onIndexChange, onClose }: ReviewPhotoViewerProps) {
   const item = items[index];
   const [zoomed, setZoomed] = useState(false);
+  const rootRef = useRef<HTMLDivElement>(null);
   const scrollRef = useRef<HTMLDivElement>(null);
   const drag = useRef<{ x: number; y: number; left: number; top: number } | null>(null);
   const dragged = useRef(false);
@@ -34,6 +35,10 @@ export function ReviewPhotoViewer({ items, index, onIndexChange, onClose }: Revi
       node.scrollLeft = 0;
       node.scrollTop = 0;
     }
+    const frame = window.requestAnimationFrame(() => {
+      rootRef.current?.scrollIntoView?.({ behavior: "smooth", block: "center" });
+    });
+    return () => window.cancelAnimationFrame(frame);
   }, [index]);
 
   useEffect(() => {
@@ -105,7 +110,7 @@ export function ReviewPhotoViewer({ items, index, onIndexChange, onClose }: Revi
   };
 
   return (
-    <div className="review-viewer" role="dialog" aria-modal="false" aria-label={title}>
+    <div ref={rootRef} className="review-viewer" role="dialog" aria-modal="false" aria-label={title}>
       <div className="review-viewer-shell">
         <button className="review-viewer-close" type="button" onClick={onClose} aria-label="Kapat">
           <X size={20} />

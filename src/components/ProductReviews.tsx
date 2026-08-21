@@ -165,6 +165,14 @@ export function ProductReviews({ productId, productSlug }: { productId: string; 
               <p>Bu ürün için henüz yayınlanmış bir değerlendirme yok.</p>
             </div>
           )}
+          {viewerIndex != null && photos[viewerIndex] && (
+            <ReviewPhotoViewer
+              items={photos}
+              index={viewerIndex}
+              onIndexChange={setViewerIndex}
+              onClose={() => setViewerIndex(null)}
+            />
+          )}
         </div>
         <form className="review-form" onSubmit={submit}>
           <h3>Puanınızı seçin</h3>
@@ -186,14 +194,6 @@ export function ProductReviews({ productId, productSlug }: { productId: string; 
           <button className="button primary" disabled={sending}><Send size={17} />{sending ? "Gönderiliyor…" : "Değerlendirmeyi gönder"}</button>
         </form>
       </div>
-      {viewerIndex != null && photos[viewerIndex] && (
-        <ReviewPhotoViewer
-          items={photos}
-          index={viewerIndex}
-          onIndexChange={setViewerIndex}
-          onClose={() => setViewerIndex(null)}
-        />
-      )}
     </Reveal>
   );
 }
