@@ -85,6 +85,7 @@ export default function Cart() {
           {knownTotal > 0 && <div className="summary-total"><span>Referans toplam</span><strong>{formatPrice(knownTotal)}</strong></div>}
           {hasUnknownPrices && <p>Bazı ürünlerin fiyatı için iletişime geçilmesi gerekiyor. Güncel fiyat ve stok mesajınıza yanıt olarak iletilecektir.</p>}
           <small className="summary-note">Fiyat ve stok bilgisi WhatsApp görüşmesinde kesinleştirilir.</small>
+          <a className="button whatsapp" href={orderUrl} target="_blank" rel="noreferrer"><MessageCircle size={18}/> Sipariş ver</a>
           <Link className="continue-shopping" to="/products"><ArrowLeft/> Alışverişe devam et</Link>
         </aside>
       </Reveal>

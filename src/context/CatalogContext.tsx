@@ -31,11 +31,17 @@ export function CatalogProvider({ children }: { children: ReactNode }) {
         const current = ratings.get(review.product_id) ?? { total: 0, count: 0 };
         ratings.set(review.product_id, { total: current.total + review.rating, count: current.count + 1 });
       }
+      const localBySlug = new Map(initialProducts.map((item) => [item.slug, item]));
       const normalized = (productResult.data ?? []).map((product: any) => {
         const rating = ratings.get(product.id);
         const fallback = ratingForProduct(product.id, product.slug);
+        const local = localBySlug.get(product.slug);
+        const description = local?.description.includes("\n\n") && !String(product.description || "").includes("\n\n")
+          ? local.description
+          : product.description;
         return {
           ...product,
+          description,
           rating_average: rating ? rating.total / rating.count : fallback.average,
           review_count: rating?.count ?? fallback.count,
           product_images: [...(product.product_images ?? [])].sort((a, b) => a.sort_order - b.sort_order),

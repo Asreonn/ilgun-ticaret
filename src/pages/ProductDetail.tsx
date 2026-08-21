@@ -54,21 +54,34 @@ export default function ProductDetail() {
             {product.old_price != null && <del>{formatPrice(product.old_price, product.currency)}</del>}
             <span className={`stock ${product.stock_status}`}><PackageCheck size={17} /> {stockText[product.stock_status]}</span>
           </div>
+          <div className="detail-actions">
+            <button className={`button primary ${added ? "added" : ""}`} onClick={addToCart}>{added ? <Check size={18}/> : <ShoppingBag size={18}/>} {added ? "Sepete eklendi" : "Sepete ekle"}</button>
+            <a className="button whatsapp order-button" href={whatsappUrl(product.name)} target="_blank" rel="noreferrer"><MessageCircle size={18} /> {orderLabel}</a>
+          </div>
         </div>
       </div>
       <section className="description-panel">
+        <div className="about-block">
+          <span className="eyebrow">ÜRÜN HAKKINDA</span>
+          <h2>Ürün hakkında</h2>
+          {product.description.split(/\n\n+/).map((paragraph) => <p key={paragraph.slice(0, 48)}>{paragraph}</p>)}
+          <ul className="about-meta">
+            {product.category?.name && <li><span>Kategori</span><strong>{product.category.name}</strong></li>}
+            {product.brand && <li><span>Marka</span><strong>{product.brand}</strong></li>}
+            <li><span>Model</span><strong>{product.model}</strong></li>
+          </ul>
+        </div>
         <div>
           <h2>Detaylar</h2>
-          <p>{product.description}</p>
+          <dl>
+            {product.product_features.map((feature, index) => (
+              <div key={`${feature.label}-${index}`}>
+                <dt>{feature.label}</dt>
+                <dd>{feature.value || "Var"}</dd>
+              </div>
+            ))}
+          </dl>
         </div>
-        <dl>
-          {product.product_features.map((feature, index) => (
-            <div key={`${feature.label}-${index}`}>
-              <dt>{feature.label}</dt>
-              <dd>{feature.value || "Var"}</dd>
-            </div>
-          ))}
-        </dl>
       </section>
       <ProductReviews productId={product.id} productSlug={product.slug}/>
       {related.length > 0 && <section className="related section"><div className="section-head"><h2>Benzer ürünler</h2><Link to={`/products/category/${product.category?.slug}`}>Kategoriyi gör</Link></div><div className="product-grid">{related.map((item) => <ProductCard key={item.id} product={item} />)}</div></section>}
