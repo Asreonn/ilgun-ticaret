@@ -7,7 +7,7 @@ import { Header } from "./Header";
 
 export function Layout() {
   const { pathname } = useLocation();
-  const hasBottomAction = pathname.startsWith("/products/") || pathname === "/cart";
+  const hasBottomAction = pathname === "/cart" || (pathname.startsWith("/products/") && !pathname.startsWith("/products/category/"));
 
   useEffect(() => {
     window.scrollTo({ top: 0, behavior: "auto" });

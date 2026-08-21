@@ -1,4 +1,4 @@
-import { Check, ChevronRight, MessageCircle, PackageCheck, ShieldCheck, ShoppingBag, Star } from "lucide-react";
+import { Check, ChevronRight, MessageCircle, PackageCheck, ShoppingBag, Star } from "lucide-react";
 import { useMemo, useState } from "react";
 import { Helmet } from "react-helmet-async";
 import { Link, useParams } from "react-router-dom";
@@ -10,6 +10,7 @@ import { useCart } from "../context/CartContext";
 import { ProductReviews } from "../components/ProductReviews";
 import { ImageWithLoader } from "../components/ImageWithLoader";
 import { ProductSlider } from "../components/ProductSlider";
+import { StickyActions } from "../components/StickyActions";
 import type { ProductFeature } from "../types";
 
 const stockText = { in_stock: "Stokta", low_stock: "Sınırlı stok", out_of_stock: "Stokta yok", contact: "Stok için iletişime geçin" };
@@ -82,11 +83,6 @@ export default function ProductDetail() {
               )}
             </div>
           )}
-          <div className="detail-actions">
-            <button className={`button primary ${added ? "added" : ""}`} onClick={addToCart}>{added ? <Check size={18}/> : <ShoppingBag size={18}/>} {added ? "Sepete eklendi" : "Sepete ekle"}</button>
-            <a className="button whatsapp order-button" href={whatsappUrl(product.name)} target="_blank" rel="noreferrer"><MessageCircle size={18} /> {orderLabel}</a>
-          </div>
-          <div className="direct-contact"><ShieldCheck size={18}/><span><strong>{site.contact}</strong> ile doğrudan görüşün · {site.phoneDisplay}</span></div>
         </div>
       </div>
       <section className="description-panel">
@@ -96,9 +92,9 @@ export default function ProductDetail() {
       <ProductReviews productId={product.id} productSlug={product.slug}/>
       {related.length > 0 && <section className="related section"><div className="section-head"><h2>Benzer ürünler</h2><Link to={`/products/category/${product.category?.slug}`}>Kategoriyi gör</Link></div><div className="product-grid">{related.map((item) => <ProductCard key={item.id} product={item} />)}</div></section>}
     </div>
-    <div className="mobile-order mobile-product-actions">
+    <StickyActions className="sticky-product-actions">
       <button className={`button primary ${added ? "added" : ""}`} onClick={addToCart}>{added ? <Check size={18}/> : <ShoppingBag size={18}/>} {added ? "Eklendi" : "Sepete ekle"}</button>
       <a className="button whatsapp" href={whatsappUrl(product.name)} target="_blank" rel="noreferrer"><MessageCircle size={18}/> {orderLabel}</a>
-    </div>
+    </StickyActions>
   </>;
 }
