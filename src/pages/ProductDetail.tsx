@@ -10,8 +10,14 @@ import { useCart } from "../context/CartContext";
 import { ProductReviews } from "../components/ProductReviews";
 import { ImageWithLoader } from "../components/ImageWithLoader";
 import { ProductSlider } from "../components/ProductSlider";
+import type { ProductFeature } from "../types";
 
 const stockText = { in_stock: "Stokta", low_stock: "Sınırlı stok", out_of_stock: "Stokta yok", contact: "Stok için iletişime geçin" };
+
+function isMeasuredFeature(feature: ProductFeature) {
+  const value = feature.value?.trim();
+  return Boolean(value) && value !== "Var";
+}
 
 export default function ProductDetail() {
   const { slug } = useParams();
@@ -25,19 +31,74 @@ export default function ProductDetail() {
   if (!product) return <div className="page-shell container empty-state"><h1>Ürün bulunamadı</h1><Link className="button primary" to="/products">Kataloğa dön</Link></div>;
   const images = product.product_images.length ? product.product_images : [{ image_path: product.main_image, alt_text: product.name, sort_order: 0 }];
   const description = product.short_description;
+  const specs = product.product_features.filter(isMeasuredFeature).slice(0, 6);
+  const highlights = product.product_features.filter((feature) => !isMeasuredFeature(feature)).slice(0, 6);
   const addToCart = () => { addItem(product); setAdded(true); };
+  const orderLabel = product.price == null ? "Teklif al" : "Sipariş ver";
   const jsonLd: Record<string, unknown> = { "@context": "https://schema.org", "@type": "Product", name: product.name, image: images.map((x) => `${site.url}/${x.image_path}`), description, sku: product.model, brand: product.brand ? { "@type": "Brand", name: product.brand } : undefined };
   if (product.price != null) jsonLd.offers = { "@type": "Offer", priceCurrency: product.currency, price: product.price, availability: product.stock_status === "out_of_stock" ? "https://schema.org/OutOfStock" : "https://schema.org/InStock", url: `${site.url}/products/${product.slug}` };
   return <>
     <PageMeta title={`${product.brand ? `${product.brand} ` : ""}${product.model} ${product.name.includes("Blender") ? "800W Blender" : product.name.split(product.model).pop()?.trim() || product.name}`} description={description} canonical={`/products/${product.slug}`} image={product.main_image} />
     <Helmet><script type="application/ld+json">{JSON.stringify(jsonLd)}</script></Helmet>
-    <div className="container product-page"><nav className="breadcrumbs" aria-label="Sayfa yolu"><Link to="/">Ana Sayfa</Link><ChevronRight size={14}/><Link to="/products">Ürünler</Link><ChevronRight size={14}/><span>{product.model}</span></nav>
-      <div className="detail-grid"><div className="gallery"><ProductSlider className="gallery-slider" items={images} getKey={(img) => img.image_path} index={selected} onIndexChange={setSelected} previousLabel="Önceki görsel" nextLabel="Sonraki görsel" dotLabel={(index) => `${index + 1}. görseli aç`} renderSlide={(img) => <div className="main-image"><ImageWithLoader src={imageUrl(img.image_path || product.main_image)} alt={img.alt_text || product.name} width="900" height="900" loading="eager" /></div>} /><div className="thumbnails">{images.map((img, i) => <button key={`${img.image_path}-${i}`} className={selected === i ? "active" : ""} onClick={() => setSelected(i)} aria-label={`${i + 1}. görseli aç`}><ImageWithLoader src={imageUrl(img.image_path)} alt="" loading="lazy" /></button>)}</div></div>
-        <div className="detail-info"><span className="eyebrow">{product.brand || "ÜRÜN"} · {product.model}</span><h1>{product.name}</h1><a className="detail-rating" href="#reviews"><span className="rating-stars" aria-hidden="true">{Array.from({ length: 5 }).map((_, index) => <Star key={index} className={index < Math.round(product.rating_average || 0) ? "filled" : ""}/>)}</span><strong>{product.review_count ? product.rating_average?.toFixed(1) : "Henüz puanlanmadı"}</strong><span>{product.review_count || 0} yorum</span></a><p className="lead">{product.short_description}</p><div className="price-block"><strong>{formatPrice(product.price, product.currency)}</strong>{product.old_price != null && <del>{formatPrice(product.old_price, product.currency)}</del>}<span className={`stock ${product.stock_status}`}><PackageCheck size={17} /> {stockText[product.stock_status]}</span></div>{product.price_checked_at && <p className="price-meta">{product.price_note?.startsWith("Piyasa emsali") ? "Piyasa emsali fiyat" : "Referans fiyat"} · {new Intl.DateTimeFormat("tr-TR", { dateStyle: "long" }).format(new Date(product.price_checked_at))} tarihinde kontrol edildi</p>}<ul className="quick-features">{product.product_features.slice(0, 5).map((f, i) => <li key={`${f.label}-${i}`}><Check size={17} /><span>{f.label}{f.value ? `: ${f.value}` : ""}</span></li>)}</ul><div className="detail-actions"><button className={`button primary ${added ? "added" : ""}`} onClick={addToCart}>{added ? <Check size={20}/> : <ShoppingBag size={20}/>} {added ? "Sepete Eklendi" : "Sepete Ekle"}</button><a className="button whatsapp order-button" href={whatsappUrl(product.name)} target="_blank" rel="noreferrer"><MessageCircle size={21} /> {product.price == null ? "Güncel Teklif Al" : "WhatsApp'tan Sipariş Ver"}</a></div><div className="direct-contact"><ShieldCheck size={19}/><span><strong>{site.contact}</strong> ile doğrudan görüşün · {site.phoneDisplay}</span></div></div></div>
-      <section className="description-panel"><div><span className="eyebrow">ÜRÜN HAKKINDA</span><h2>Detaylar</h2><p>{product.description}</p></div><div><h2>Teknik özellikler</h2><dl>{product.product_features.map((f, i) => <div key={`${f.label}-${i}`}><dt>{f.label}</dt><dd>{f.value || "Var"}</dd></div>)}</dl></div></section>
+    <div className="container product-page">
+      <nav className="breadcrumbs" aria-label="Sayfa yolu"><Link to="/">Ana Sayfa</Link><ChevronRight size={14}/><Link to="/products">Ürünler</Link><ChevronRight size={14}/><span>{product.model}</span></nav>
+      <div className="detail-grid">
+        <div className="gallery">
+          <ProductSlider className="gallery-slider" items={images} getKey={(img) => img.image_path} index={selected} onIndexChange={setSelected} previousLabel="Önceki görsel" nextLabel="Sonraki görsel" dotLabel={(index) => `${index + 1}. görseli aç`} renderSlide={(img) => <div className="main-image"><ImageWithLoader src={imageUrl(img.image_path || product.main_image)} alt={img.alt_text || product.name} width="900" height="900" loading="eager" /></div>} />
+          <div className="thumbnails">{images.map((img, i) => <button key={`${img.image_path}-${i}`} className={selected === i ? "active" : ""} onClick={() => setSelected(i)} aria-label={`${i + 1}. görseli aç`}><ImageWithLoader src={imageUrl(img.image_path)} alt="" loading="lazy" /></button>)}</div>
+        </div>
+        <div className="detail-info">
+          <span className="eyebrow">{product.brand || "ÜRÜN"} · {product.model}</span>
+          <h1>{product.name}</h1>
+          <a className="detail-rating" href="#reviews">
+            <span className="rating-stars" aria-hidden="true">{Array.from({ length: 5 }).map((_, index) => <Star key={index} className={index < Math.round(product.rating_average || 0) ? "filled" : ""}/>)}</span>
+            <strong>{product.review_count ? product.rating_average?.toFixed(1) : "Henüz puanlanmadı"}</strong>
+            <span>{product.review_count || 0} yorum</span>
+          </a>
+          <p className="lead">{product.short_description}</p>
+          <div className="price-block">
+            <strong>{formatPrice(product.price, product.currency)}</strong>
+            {product.old_price != null && <del>{formatPrice(product.old_price, product.currency)}</del>}
+            <span className={`stock ${product.stock_status}`}><PackageCheck size={17} /> {stockText[product.stock_status]}</span>
+          </div>
+          {(specs.length > 0 || highlights.length > 0) && (
+            <div className="product-highlights">
+              {specs.length > 0 && (
+                <dl className="spec-preview">
+                  {specs.map((feature, index) => (
+                    <div key={`${feature.label}-${index}`}>
+                      <dt>{feature.label}</dt>
+                      <dd>{feature.value}</dd>
+                    </div>
+                  ))}
+                </dl>
+              )}
+              {highlights.length > 0 && (
+                <ul className="quick-features">
+                  {highlights.map((feature, index) => (
+                    <li key={`${feature.label}-${index}`}><Check size={16} /><span>{feature.label}</span></li>
+                  ))}
+                </ul>
+              )}
+            </div>
+          )}
+          <div className="detail-actions">
+            <button className={`button primary ${added ? "added" : ""}`} onClick={addToCart}>{added ? <Check size={18}/> : <ShoppingBag size={18}/>} {added ? "Sepete eklendi" : "Sepete ekle"}</button>
+            <a className="button whatsapp order-button" href={whatsappUrl(product.name)} target="_blank" rel="noreferrer"><MessageCircle size={18} /> {orderLabel}</a>
+          </div>
+          <div className="direct-contact"><ShieldCheck size={18}/><span><strong>{site.contact}</strong> ile doğrudan görüşün · {site.phoneDisplay}</span></div>
+        </div>
+      </div>
+      <section className="description-panel">
+        <div><span className="eyebrow">ÜRÜN HAKKINDA</span><h2>Detaylar</h2><p>{product.description}</p></div>
+        <div><h2>Teknik özellikler</h2><dl>{product.product_features.map((f, i) => <div key={`${f.label}-${i}`}><dt>{f.label}</dt><dd>{f.value || "Var"}</dd></div>)}</dl></div>
+      </section>
       <ProductReviews productId={product.id} productSlug={product.slug}/>
       {related.length > 0 && <section className="related section"><div className="section-head"><h2>Benzer ürünler</h2><Link to={`/products/category/${product.category?.slug}`}>Kategoriyi gör</Link></div><div className="product-grid">{related.map((item) => <ProductCard key={item.id} product={item} />)}</div></section>}
     </div>
-    <div className="mobile-order mobile-product-actions"><button className={`button primary ${added ? "added" : ""}`} onClick={addToCart}>{added ? <Check size={19}/> : <ShoppingBag size={19}/>} {added ? "Eklendi" : "Sepet"}</button><a className="button whatsapp" href={whatsappUrl(product.name)} target="_blank" rel="noreferrer"><MessageCircle size={20}/> WhatsApp</a></div>
+    <div className="mobile-order mobile-product-actions">
+      <button className={`button primary ${added ? "added" : ""}`} onClick={addToCart}>{added ? <Check size={18}/> : <ShoppingBag size={18}/>} {added ? "Eklendi" : "Sepete ekle"}</button>
+      <a className="button whatsapp" href={whatsappUrl(product.name)} target="_blank" rel="noreferrer"><MessageCircle size={18}/> {orderLabel}</a>
+    </div>
   </>;
 }
