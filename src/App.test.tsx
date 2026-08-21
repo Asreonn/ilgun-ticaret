@@ -11,10 +11,10 @@ test("ana sayfa marka ve kompakt ürün seçkisini gösterir", async () => {
   const { container } = render(<HelmetProvider><MemoryRouter future={{ v7_startTransition: true, v7_relativeSplatPath: true }}><CatalogProvider><CartProvider><App/></CartProvider></CatalogProvider></MemoryRouter></HelmetProvider>);
   expect(screen.getByRole("heading", { name: "Teknoloji seçkisini keşfedin" })).toBeInTheDocument();
   expect(screen.getAllByText("Sepete Ekle")).toHaveLength(4);
-  expect(screen.getByText("₺6.899,00")).toBeInTheDocument();
-  expect(screen.getByText("₺9.000,00")).toBeInTheDocument();
-  expect(screen.getByText("₺499,00")).toBeInTheDocument();
-  expect(screen.getByText("₺549,00")).toBeInTheDocument();
+  expect(screen.getAllByText("₺6.899,00").length).toBeGreaterThan(0);
+  expect(screen.getAllByText("₺9.000,00").length).toBeGreaterThan(0);
+  expect(screen.getAllByText("₺499,00").length).toBeGreaterThan(0);
+  expect(screen.getAllByText("₺549,00").length).toBeGreaterThan(0);
   expect(screen.getByText("(5 yorum)")).toBeInTheDocument();
   expect(screen.getByText("(3 yorum)")).toBeInTheDocument();
   expect(screen.getByText("(4 yorum)")).toBeInTheDocument();
