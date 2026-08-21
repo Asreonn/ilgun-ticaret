@@ -1,0 +1,3 @@
+User-agent: *
+Allow: /
+Sitemap: https://asreonn.github.io/ilgun-ticaret/sitemap.xml

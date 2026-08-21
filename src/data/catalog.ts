@@ -1,0 +1,79 @@
+import type { Category, Product } from "../types";
+
+export const categories: Category[] = [
+  { id: "audio", slug: "ses-kulaklik", name: "Ses & Kulaklık", description: "Kulaklıklar ve taşınabilir ses ürünleri", sort_order: 1, active: true },
+  { id: "electronics", slug: "elektronik-aksesuar", name: "Elektronik Aksesuar", description: "Günlük kullanım için pratik elektronik aksesuarlar", sort_order: 2, active: true },
+  { id: "home", slug: "kucuk-ev-aletleri", name: "Küçük Ev Aletleri", description: "Mutfak ve ev yaşamını kolaylaştıran ürünler", sort_order: 3, active: true },
+  { id: "care", slug: "kisisel-bakim", name: "Kişisel Bakım", description: "Günlük bakım ve rahatlama ürünleri", sort_order: 4, active: true },
+  { id: "bags", slug: "canta-aksesuar", name: "Çanta & Aksesuar", description: "Teknolojiyle uyumlu çanta ve aksesuarlar", sort_order: 5, active: true }
+];
+
+const category = (id: string) => categories.find((item) => item.id === id)!;
+const image = (slug: string, name: string) => `images/products/${slug}/${name}.webp`;
+const feature = (label: string, value = "Var", sort_order = 0) => ({ label, value, sort_order });
+
+export const initialProducts: Product[] = [
+  {
+    id: "seed-wb65", slug: "yesido-wb65", name: "YESIDO WB65 Parmak İzi Kilitli Akıllı Sırt Çantası", brand: "YESIDO", model: "WB65", category_id: "bags",
+    short_description: "Parmak izi kilidi, düzenli cihaz bölmeleri ve dayanıklı dış yüzeyi bir araya getiren akıllı sırt çantası.",
+    description: "YESIDO WB65; günlük kullanım, işe gidiş ve seyahat sırasında elektronik cihazları düzenli taşımak için tasarlanmıştır. Parmak iziyle çalışan kilidi erişim kontrolünü kolaylaştırırken Oxford kumaş ve PU dış yüzey, su sıçramalarına karşı ek koruma sunar. Yaklaşık ölçüsü 300 × 430 × 140 mm'dir.",
+    price: null, old_price: null, currency: "TRY", stock_quantity: 0, stock_status: "contact", featured: true, active: true, sort_order: 1,
+    main_image: image("yesido-wb65", "main"), source_url: "https://miot-store.com/products/yesido-wb65-fingerprint-lock-smart-backpackblack", category: category("bags"),
+    product_images: ["main", "01", "02"].map((name, i) => ({ image_path: image("yesido-wb65", name), alt_text: `YESIDO WB65 akıllı sırt çantası ${i + 1}`, sort_order: i })),
+    product_features: ["Parmak izi güvenlik kilidi", "Laptop ve tablet bölmeleri", "Oxford kumaş + PU", "Su sıçramalarına dayanıklı yapı", "Yumuşak iç astar", "USB bağlantısı", "Günlük kullanım ve seyahate uygun"].map((x, i) => feature(x, "", i))
+  },
+  {
+    id: "seed-lkb39", slug: "linkage-lkb-39", name: "Linkage LKB-39 Boyun Askılı Bluetooth Kulaklık", brand: "Linkage", model: "LKB-39", category_id: "audio",
+    short_description: "Bluetooth 5.4, USB-C şarj ve hafıza kartı desteğine sahip boyun askılı kablosuz kulaklık.",
+    description: "Linkage LKB-39, boyun askılı gövdesi ve fiziksel kontrol bölümüyle hareket halindeki kullanıma odaklanır. Ürün kutusunda Bluetooth 5.4, USB-C şarj, güç göstergesi, stereo ses ve hafıza kartı desteği bilgileri yer alır. 2800 mAh ve 600 saat ifadeleri üretici ambalajındaki bilgilerdir; gerçek kullanım süresi kullanım koşullarına göre değişebilir.",
+    price: null, old_price: null, currency: "TRY", stock_quantity: 0, stock_status: "contact", featured: true, active: true, sort_order: 2,
+    main_image: image("linkage-lkb-39", "main"), source_url: "https://enshall.com.tr/linkage-lkb-39-bluetooth-kulaklik", category: category("audio"),
+    product_images: ["main", "01"].map((name, i) => ({ image_path: image("linkage-lkb-39", name), alt_text: `Linkage LKB-39 boyun askılı kulaklık ${i + 1}`, sort_order: i })),
+    product_features: ["Boyun askılı tasarım", "Bluetooth 5.4", "USB-C şarj", "Dahili güç göstergesi", "Hafıza kartı desteği", "Stereo ses", "Spor kullanımına uygun"].map((x, i) => feature(x, "", i))
+  },
+  {
+    id: "seed-bls92", slug: "blic-bls-92", name: "BLIC BLS-92 Desk Sound Kablosuz Hoparlör", brand: "BLIC", model: "BLS-92", category_id: "audio",
+    short_description: "6W RMS çıkış, Bluetooth 5.4 ve entegre taşıma kulbuyla kompakt masaüstü hoparlör.",
+    description: "BLIC BLS-92, siyah ve turuncu detaylara sahip kompakt bir kablosuz hoparlördür. Entegre kulbu taşımayı kolaylaştırır; USB ve TF kart desteği farklı ses kaynaklarıyla kullanım olanağı sunar.",
+    price: null, old_price: null, currency: "TRY", stock_quantity: 0, stock_status: "contact", featured: true, active: true, sort_order: 3,
+    main_image: image("blic-bls-92", "main"), source_url: "https://www.hafizakartci.com/toptan-blic-bls-92-askili-6w-mini-bluetooth-speaker.html", category: category("audio"),
+    product_images: ["main", "01", "02"].map((name, i) => ({ image_path: image("blic-bls-92", name), alt_text: `BLIC BLS-92 hoparlör ${i + 1}`, sort_order: i })),
+    product_features: [feature("Bluetooth", "5.4", 0), feature("Bağlantılar", "USB, TF kart", 1), feature("Batarya", "1200 mAh", 2), feature("Ses çıkışı", "6W RMS", 3), feature("Entegre taşıma kulbu", "Var", 4)]
+  },
+  {
+    id: "seed-bls96", slug: "blic-bls-96", name: "BLIC BLS-96 Smooth Sound Kablosuz Hoparlör", brand: "BLIC", model: "BLS-96", category_id: "audio",
+    short_description: "Telefon standı, taşıma askısı ve çoklu bağlantı seçenekleri sunan kompakt kablosuz hoparlör.",
+    description: "BLIC BLS-96, kompakt gövdesine telefon standı ve taşıma askısı ekleyen pratik bir ses çözümüdür. Bluetooth 5.4 bağlantısının yanında USB ve TF kart kaynaklarını destekler.",
+    price: null, old_price: null, currency: "TRY", stock_quantity: 0, stock_status: "contact", featured: true, active: true, sort_order: 4,
+    main_image: image("blic-bls-96", "main"), source_url: "https://www.hafizakartci.com/toptan-blic-bls-96-askili-6w-mini-bluetooth-speaker-telefon-tutuculu.html", category: category("audio"),
+    product_images: ["main", "01", "02"].map((name, i) => ({ image_path: image("blic-bls-96", name), alt_text: `BLIC BLS-96 hoparlör ${i + 1}`, sort_order: i })),
+    product_features: [feature("Bluetooth", "5.4", 0), feature("Bağlantılar", "USB, TF kart", 1), feature("Batarya", "1200 mAh", 2), feature("Ses çıkışı", "6W RMS", 3), feature("Dahili telefon standı", "Var", 4), feature("Taşıma askısı", "Var", 5)]
+  },
+  {
+    id: "seed-bls74", slug: "blic-bls-74", name: "BLIC BLS-74 Retro RGB TWS Bluetooth Hoparlör", brand: "BLIC", model: "BLS-74", category_id: "audio",
+    short_description: "Retro gövdeyi TWS stereo eşleştirme ve RGB aydınlatmayla birleştiren 7W hoparlör.",
+    description: "BLIC BLS-74, kompakt retro tasarımını Bluetooth bağlantısı, TWS desteği ve RGB aydınlatmayla bir araya getirir. İki uyumlu hoparlörü eşleştirme olanağı daha geniş bir stereo dinleme düzeni kurulmasını sağlar.",
+    price: null, old_price: null, currency: "TRY", stock_quantity: 0, stock_status: "contact", featured: true, active: true, sort_order: 5,
+    main_image: image("blic-bls-74", "main"), source_url: "https://www.hafizakartci.com/toptan-blic-bls-74-rgb-tws-7w-rms-bluetooth-speaker-coklu-cihaz-uyumu.html", category: category("audio"),
+    product_images: ["main", "01"].map((name, i) => ({ image_path: image("blic-bls-74", name), alt_text: `BLIC BLS-74 retro hoparlör ${i + 1}`, sort_order: i })),
+    product_features: [feature("Tasarım", "Retro", 0), feature("Kablosuz bağlantı", "Bluetooth", 1), feature("TWS stereo", "Var", 2), feature("Bağlantılar", "TF, USB", 3), feature("RGB aydınlatma", "Var", 4), feature("Batarya", "1200 mAh", 5), feature("Ses çıkışı", "7W RMS", 6)]
+  },
+  {
+    id: "seed-ec27", slug: "yesido-ec27", name: "YESIDO EC27 2'si 1 Arada 800W Blender", brand: "YESIDO", model: "EC27", category_id: "home",
+    short_description: "Blender ve öğütücü işlevlerini 800W motor, iki kap ve çıkarılabilir bıçak sistemiyle sunar.",
+    description: "YESIDO EC27, içecek hazırlama ve öğütme işlemlerini tek gövdede buluşturur. Paslanmaz çelik bıçak sistemi çıkarılarak temizlenebilir; iki ayrı karıştırma kabı farklı porsiyonlara uyum sağlar. Kaymaz tabanı kullanım sırasında gövdenin dengede kalmasına yardımcı olur.",
+    price: null, old_price: null, currency: "TRY", stock_quantity: 0, stock_status: "contact", featured: true, active: true, sort_order: 6,
+    main_image: image("yesido-ec27", "main"), source_url: "https://yesido.com.tr/en/products/yesido-ec27-2in1-buz-kirma-ozellikli-meyve-sikacagi-gri", category: category("home"),
+    product_images: ["main", "01", "02"].map((name, i) => ({ image_path: image("yesido-ec27", name), alt_text: `YESIDO EC27 blender ${i + 1}`, sort_order: i })),
+    product_features: [feature("Motor gücü", "800W", 0), feature("Kullanım", "Blender + öğütücü", 1), feature("Buz kırma", "Var", 2), feature("Bıçak", "Paslanmaz çelik, çıkarılabilir", 3), feature("Karıştırma kabı", "2 adet", 4), feature("Kaymaz taban", "Var", 5)]
+  },
+  {
+    id: "seed-cy818", slug: "cy-818", name: "CY-818 Isıtmalı Derin Doku Boyun ve Omuz Masaj Aleti", brand: null, model: "CY-818", category_id: "care",
+    short_description: "Isıtma işlevi ve el biçimli başlıklarıyla rahatlatıcı masaj deneyimi için tasarlanmış taşınabilir cihaz.",
+    description: "CY-818; boyun, omuz, sırt ve bel çevresinde rahatlatıcı masaj deneyimi sunmak üzere tasarlanmıştır. Ergonomik formu ve USB ile şarj edilebilen taşınabilir yapısı evde veya seyahatte kullanımı kolaylaştırır. Bu ürün tıbbi tedavi amacı taşımaz.",
+    price: null, old_price: null, currency: "TRY", stock_quantity: 0, stock_status: "contact", featured: true, active: true, sort_order: 7,
+    main_image: image("cy-818", "main"), source_url: "https://www.victoriastore.com.py/item/massageador-cervical-shoulder-neck-cy-818-10w-verd766311", category: category("care"),
+    product_images: ["main", "01"].map((name, i) => ({ image_path: image("cy-818", name), alt_text: `CY-818 yeşil masaj aleti ${i + 1}`, sort_order: i })),
+    product_features: ["Isıtmalı kullanım", "Derin doku masajı", "Ergonomik tasarım", "USB ile şarj", "Taşınabilir yapı", "Boyun, omuz, sırt ve bel kullanımına uygun"].map((x, i) => feature(x, "", i))
+  }
+];

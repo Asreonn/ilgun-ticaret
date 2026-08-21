@@ -1,0 +1,35 @@
+export type Category = {
+  id: string;
+  slug: string;
+  name: string;
+  description: string;
+  sort_order: number;
+  active: boolean;
+};
+
+export type ProductImage = { id?: string; image_path: string; alt_text: string; sort_order: number };
+export type ProductFeature = { id?: string; label: string; value: string; sort_order: number };
+
+export type Product = {
+  id: string;
+  slug: string;
+  name: string;
+  brand: string | null;
+  model: string;
+  category_id: string;
+  short_description: string;
+  description: string;
+  price: number | null;
+  old_price: number | null;
+  currency: string;
+  stock_quantity: number;
+  stock_status: "in_stock" | "low_stock" | "out_of_stock" | "contact";
+  featured: boolean;
+  active: boolean;
+  main_image: string;
+  source_url: string | null;
+  sort_order: number;
+  category?: Category;
+  product_images: ProductImage[];
+  product_features: ProductFeature[];
+};
