@@ -58,7 +58,7 @@ Sonra `/admin` sayfasından giriş yapılabilir. Public signup yoktur. İkinci b
 
 ## Admin kullanımı
 
-`/admin` üzerinden ürün ekleme, düzenleme, kalıcı silme, aktif/pasif yapma, fiyat/eski fiyat, stok, öne çıkarma, açıklama, kategori, sıralama, özellik, görsel ve müşteri yorumu yönetimi yapılabilir. Görsel yükleme alanı dosyayı Supabase Storage'a yollar ve public URL'yi ürün kaydına ekler. Yeni yorumlar varsayılan olarak onaysız kaydedilir; admin onaylamadan mağazada görünmez. Prototipteki örnek değerlendirmeler `is_demo=true` olarak ayrı tutulur ve mağazada açıkça “Demo içerik” etiketi taşır.
+`/admin` üzerinden ürün ekleme, düzenleme, kalıcı silme, aktif/pasif yapma, fiyat/eski fiyat, stok, öne çıkarma, açıklama, kategori, sıralama, özellik, görsel ve müşteri yorumu yönetimi yapılabilir. Görsel yükleme alanı dosyayı Supabase Storage'a yollar ve public URL'yi ürün kaydına ekler. Yeni yorumlar varsayılan olarak onaysız kaydedilir; admin onaylamadan mağazada görünmez.
 
 Sepet tarayıcıda yerel olarak saklanır. Ödeme almaz; ürün ve adet listesini profesyonel bir WhatsApp sipariş mesajına dönüştürür.
 

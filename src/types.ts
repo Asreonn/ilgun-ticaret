@@ -9,7 +9,7 @@ export type Category = {
 
 export type ProductImage = { id?: string; image_path: string; alt_text: string; sort_order: number };
 export type ProductFeature = { id?: string; label: string; value: string; sort_order: number };
-export type ProductReview = { id: string; product_id: string; reviewer_name: string; rating: number; comment: string; approved: boolean; is_demo: boolean; created_at: string; product?: { name: string; model: string } };
+export type ProductReview = { id: string; product_id: string; reviewer_name: string; rating: number; comment: string; approved: boolean; created_at: string; product?: { name: string; model: string } };
 
 export type Product = {
   id: string;
