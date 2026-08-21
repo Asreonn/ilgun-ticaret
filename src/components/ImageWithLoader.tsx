@@ -1,4 +1,4 @@
-import { type ImgHTMLAttributes, useEffect, useState } from "react";
+import { type ImgHTMLAttributes, useEffect, useRef, useState } from "react";
 
 type ImageWithLoaderProps = Omit<
   ImgHTMLAttributes<HTMLImageElement>,
@@ -15,11 +15,17 @@ export function ImageWithLoader({
 }: ImageWithLoaderProps) {
   const [loaded, setLoaded] = useState(false);
   const [currentSrc, setCurrentSrc] = useState(src);
+  const imageRef = useRef<HTMLImageElement>(null);
 
   useEffect(() => {
     setLoaded(false);
     setCurrentSrc(src);
   }, [src]);
+
+  useEffect(() => {
+    const image = imageRef.current;
+    setLoaded(Boolean(image?.complete && image.naturalWidth > 0));
+  }, [currentSrc]);
 
   return (
     <span className={`media-loader ${loaded ? "is-loaded" : "is-loading"}`}>
@@ -27,6 +33,7 @@ export function ImageWithLoader({
       <span className="media-spinner" aria-hidden="true" />
       <img
         {...props}
+        ref={imageRef}
         className={className}
         src={currentSrc}
         onLoad={() => setLoaded(true)}
