@@ -17,7 +17,7 @@ export const initialProducts: Product[] = [
     id: "seed-wb65", slug: "yesido-wb65", name: "YESIDO WB65 Parmak İzi Kilitli Akıllı Sırt Çantası", brand: "YESIDO", model: "WB65", category_id: "bags",
     short_description: "Parmak izi kilidi, düzenli cihaz bölmeleri ve dayanıklı dış yüzeyi bir araya getiren akıllı sırt çantası.",
     description: "YESIDO WB65; günlük kullanım, işe gidiş ve seyahat sırasında elektronik cihazları düzenli taşımak için tasarlanmıştır. Parmak iziyle çalışan kilidi erişim kontrolünü kolaylaştırırken Oxford kumaş ve PU dış yüzey, su sıçramalarına karşı ek koruma sunar. Yaklaşık ölçüsü 300 × 430 × 140 mm'dir.",
-    price: null, old_price: null, currency: "TRY", stock_quantity: 0, stock_status: "contact", featured: true, active: true, sort_order: 1,
+    price: 6899, old_price: 9000, currency: "TRY", stock_quantity: 0, stock_status: "contact", featured: true, active: true, sort_order: 1,
     main_image: image("yesido-wb65", "main"), source_url: "https://miot-store.com/products/yesido-wb65-fingerprint-lock-smart-backpackblack", category: category("bags"),
     product_images: ["main", "01", "02"].map((name, i) => ({ image_path: image("yesido-wb65", name), alt_text: `YESIDO WB65 akıllı sırt çantası ${i + 1}`, sort_order: i })),
     product_features: ["Parmak izi güvenlik kilidi", "Laptop ve tablet bölmeleri", "Oxford kumaş + PU", "Su sıçramalarına dayanıklı yapı", "Yumuşak iç astar", "USB bağlantısı", "Günlük kullanım ve seyahate uygun"].map((x, i) => feature(x, "", i))
@@ -26,7 +26,7 @@ export const initialProducts: Product[] = [
     id: "seed-lkb39", slug: "linkage-lkb-39", name: "Linkage LKB-39 Boyun Askılı Bluetooth Kulaklık", brand: "Linkage", model: "LKB-39", category_id: "audio",
     short_description: "Bluetooth 5.4, USB-C şarj ve hafıza kartı desteğine sahip boyun askılı kablosuz kulaklık.",
     description: "Linkage LKB-39, boyun askılı gövdesi ve fiziksel kontrol bölümüyle hareket halindeki kullanıma odaklanır. Ürün kutusunda Bluetooth 5.4, USB-C şarj, güç göstergesi, stereo ses ve hafıza kartı desteği bilgileri yer alır. 2800 mAh ve 600 saat ifadeleri üretici ambalajındaki bilgilerdir; gerçek kullanım süresi kullanım koşullarına göre değişebilir.",
-    price: null, old_price: null, currency: "TRY", stock_quantity: 0, stock_status: "contact", featured: true, active: true, sort_order: 2,
+    price: 669, old_price: null, currency: "TRY", stock_quantity: 0, stock_status: "contact", featured: true, active: true, sort_order: 2,
     main_image: image("linkage-lkb-39", "main"), source_url: "https://enshall.com.tr/linkage-lkb-39-bluetooth-kulaklik", category: category("audio"),
     product_images: ["main", "01"].map((name, i) => ({ image_path: image("linkage-lkb-39", name), alt_text: `Linkage LKB-39 boyun askılı kulaklık ${i + 1}`, sort_order: i })),
     product_features: ["Boyun askılı tasarım", "Bluetooth 5.4", "USB-C şarj", "Dahili güç göstergesi", "Hafıza kartı desteği", "Stereo ses", "Spor kullanımına uygun"].map((x, i) => feature(x, "", i))
@@ -53,7 +53,7 @@ export const initialProducts: Product[] = [
     id: "seed-bls74", slug: "blic-bls-74", name: "BLIC BLS-74 Retro RGB TWS Bluetooth Hoparlör", brand: "BLIC", model: "BLS-74", category_id: "audio",
     short_description: "Retro gövdeyi TWS stereo eşleştirme ve RGB aydınlatmayla birleştiren 7W hoparlör.",
     description: "BLIC BLS-74, kompakt retro tasarımını Bluetooth bağlantısı, TWS desteği ve RGB aydınlatmayla bir araya getirir. İki uyumlu hoparlörü eşleştirme olanağı daha geniş bir stereo dinleme düzeni kurulmasını sağlar.",
-    price: null, old_price: null, currency: "TRY", stock_quantity: 0, stock_status: "contact", featured: true, active: true, sort_order: 5,
+    price: 428, old_price: 665, currency: "TRY", stock_quantity: 0, stock_status: "contact", featured: true, active: true, sort_order: 5,
     main_image: image("blic-bls-74", "main"), source_url: "https://www.hafizakartci.com/toptan-blic-bls-74-rgb-tws-7w-rms-bluetooth-speaker-coklu-cihaz-uyumu.html", category: category("audio"),
     product_images: ["main", "01"].map((name, i) => ({ image_path: image("blic-bls-74", name), alt_text: `BLIC BLS-74 retro hoparlör ${i + 1}`, sort_order: i })),
     product_features: [feature("Tasarım", "Retro", 0), feature("Kablosuz bağlantı", "Bluetooth", 1), feature("TWS stereo", "Var", 2), feature("Bağlantılar", "TF, USB", 3), feature("RGB aydınlatma", "Var", 4), feature("Batarya", "1200 mAh", 5), feature("Ses çıkışı", "7W RMS", 6)]
@@ -62,7 +62,7 @@ export const initialProducts: Product[] = [
     id: "seed-ec27", slug: "yesido-ec27", name: "YESIDO EC27 2'si 1 Arada 800W Blender", brand: "YESIDO", model: "EC27", category_id: "home",
     short_description: "Blender ve öğütücü işlevlerini 800W motor, iki kap ve çıkarılabilir bıçak sistemiyle sunar.",
     description: "YESIDO EC27, içecek hazırlama ve öğütme işlemlerini tek gövdede buluşturur. Paslanmaz çelik bıçak sistemi çıkarılarak temizlenebilir; iki ayrı karıştırma kabı farklı porsiyonlara uyum sağlar. Kaymaz tabanı kullanım sırasında gövdenin dengede kalmasına yardımcı olur.",
-    price: null, old_price: null, currency: "TRY", stock_quantity: 0, stock_status: "contact", featured: true, active: true, sort_order: 6,
+    price: 3699, old_price: null, currency: "TRY", stock_quantity: 0, stock_status: "contact", featured: true, active: true, sort_order: 6,
     main_image: image("yesido-ec27", "main"), source_url: "https://yesido.com.tr/en/products/yesido-ec27-2in1-buz-kirma-ozellikli-meyve-sikacagi-gri", category: category("home"),
     product_images: ["main", "01", "02"].map((name, i) => ({ image_path: image("yesido-ec27", name), alt_text: `YESIDO EC27 blender ${i + 1}`, sort_order: i })),
     product_features: [feature("Motor gücü", "800W", 0), feature("Kullanım", "Blender + öğütücü", 1), feature("Buz kırma", "Var", 2), feature("Bıçak", "Paslanmaz çelik, çıkarılabilir", 3), feature("Karıştırma kabı", "2 adet", 4), feature("Kaymaz taban", "Var", 5)]
@@ -71,7 +71,7 @@ export const initialProducts: Product[] = [
     id: "seed-cy818", slug: "cy-818", name: "CY-818 Isıtmalı Derin Doku Boyun ve Omuz Masaj Aleti", brand: null, model: "CY-818", category_id: "care",
     short_description: "Isıtma işlevi ve el biçimli başlıklarıyla rahatlatıcı masaj deneyimi için tasarlanmış taşınabilir cihaz.",
     description: "CY-818; boyun, omuz, sırt ve bel çevresinde rahatlatıcı masaj deneyimi sunmak üzere tasarlanmıştır. Ergonomik formu ve USB ile şarj edilebilen taşınabilir yapısı evde veya seyahatte kullanımı kolaylaştırır. Bu ürün tıbbi tedavi amacı taşımaz.",
-    price: null, old_price: null, currency: "TRY", stock_quantity: 0, stock_status: "contact", featured: true, active: true, sort_order: 7,
+    price: 1233, old_price: 2592, currency: "TRY", stock_quantity: 0, stock_status: "contact", featured: true, active: true, sort_order: 7,
     main_image: image("cy-818", "main"), source_url: "https://www.victoriastore.com.py/item/massageador-cervical-shoulder-neck-cy-818-10w-verd766311", category: category("care"),
     product_images: ["main", "01"].map((name, i) => ({ image_path: image("cy-818", name), alt_text: `CY-818 yeşil masaj aleti ${i + 1}`, sort_order: i })),
     product_features: ["Isıtmalı kullanım", "Derin doku masajı", "Ergonomik tasarım", "USB ile şarj", "Taşınabilir yapı", "Boyun, omuz, sırt ve bel kullanımına uygun"].map((x, i) => feature(x, "", i))

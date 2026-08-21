@@ -11,6 +11,8 @@ test("ana sayfa marka ve yedi ürünü gösterir", async () => {
   render(<HelmetProvider><MemoryRouter future={{ v7_startTransition: true, v7_relativeSplatPath: true }}><CatalogProvider><CartProvider><App/></CartProvider></CatalogProvider></MemoryRouter></HelmetProvider>);
   expect(screen.getByText("Günlük Hayatı", { exact: false })).toBeInTheDocument();
   expect(screen.getAllByText("Sepete Ekle")).toHaveLength(7);
+  expect(screen.getByText("₺6.899,00")).toBeInTheDocument();
+  expect(screen.getByText("₺9.000,00")).toBeInTheDocument();
   expect(screen.getAllByText("İLGÜN").length).toBeGreaterThan(0);
 });
 

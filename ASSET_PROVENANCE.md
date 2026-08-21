@@ -13,3 +13,19 @@ Frontend yalnızca repository içindeki yerel WebP dosyalarını kullanır. Aşa
 | CY-818 | Perakende ürün sayfası, model ve yeşil gövde doğrulandı | https://www.victoriastore.com.py/item/massageador-cervical-shoulder-neck-cy-818-10w-verd766311 |
 
 Başlangıç kataloğunda 18 yerel görsel bulunur. BLIC BLS-92 ve BLS-96 görselleri exact marka + model ürün sayfalarından alınmıştır; başka model görseli kullanılmamıştır.
+
+## Fiyat kaynakları
+
+Fiyatlar 21 Ağustos 2026 tarihinde kontrol edilmiştir. Bunlar vitrin için referans satış fiyatlarıdır; güncel fiyat ve stok sipariş öncesinde teyit edilmelidir.
+
+| Ürün | Site üzerindeki fiyat | Kaynak / dönüşüm |
+|---|---:|---|
+| YESIDO WB65 | 6.899 TL (eski 9.000 TL) | Bi Elma Türkiye perakende fiyatı |
+| Linkage LKB-39 | 669 TL | Enshall Türkiye perakende fiyatı |
+| BLIC BLS-92 | Fiyat için iletişim | Exact model sayfasında fiyat bayi girişi arkasında; fiyat uydurulmadı |
+| BLIC BLS-96 | Fiyat için iletişim | Exact model sayfasında fiyat bayi girişi arkasında; fiyat uydurulmadı |
+| BLIC BLS-74 | 428 TL (eski 665 TL) | Kulis Bilişim Türkiye kampanya fiyatı |
+| YESIDO EC27 | 3.699 TL | YESIDO Türkiye resmî satış fiyatı |
+| CY-818 | 1.233 TL (eski 2.592 TL) | Noon Qatar 94,16 / 198 QAR; 1 QAR = 13,09 TL ile çevrildi |
+
+Fiyat kaynak URL'leri ayrıca `products.price_source_url`, kontrol tarihi ise `products.price_checked_at` alanında tutulur.
