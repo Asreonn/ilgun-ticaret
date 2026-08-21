@@ -1,5 +1,6 @@
 import { createContext, useContext, useEffect, useMemo, useState, type ReactNode } from "react";
 import { categories as fallbackCategories, initialProducts } from "../data/catalog";
+import { ratingForProduct } from "../data/reviews";
 import { isSupabaseConfigured, supabase } from "../lib/supabase";
 import type { Category, Product } from "../types";
 
@@ -32,10 +33,11 @@ export function CatalogProvider({ children }: { children: ReactNode }) {
       }
       const normalized = (productResult.data ?? []).map((product: any) => {
         const rating = ratings.get(product.id);
+        const fallback = ratingForProduct(product.id, product.slug);
         return {
           ...product,
-          rating_average: rating ? rating.total / rating.count : 0,
-          review_count: rating?.count ?? 0,
+          rating_average: rating ? rating.total / rating.count : fallback.average,
+          review_count: rating?.count ?? fallback.count,
           product_images: [...(product.product_images ?? [])].sort((a, b) => a.sort_order - b.sort_order),
           product_features: [...(product.product_features ?? [])].sort((a, b) => a.sort_order - b.sort_order)
         };

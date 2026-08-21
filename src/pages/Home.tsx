@@ -1,11 +1,14 @@
 import {
   ArrowRight,
+  BadgeCheck,
   ChevronLeft,
   ChevronRight,
   Headphones,
   HousePlug,
   MessageCircle,
+  PackageCheck,
   Sparkles,
+  Star,
   UserRound,
   Watch,
 } from "lucide-react";
@@ -14,7 +17,9 @@ import { Link } from "react-router-dom";
 import { PageMeta } from "../components/PageMeta";
 import { ProductCard } from "../components/ProductCard";
 import { ImageWithLoader } from "../components/ImageWithLoader";
+import { Reveal } from "../components/Reveal";
 import { useCatalog } from "../context/CatalogContext";
+import { featuredStoreReviews } from "../data/reviews";
 import { imageUrl, whatsappUrl } from "../lib/site";
 
 const icons = [Headphones, HousePlug, Sparkles, UserRound, Watch];
@@ -177,7 +182,15 @@ export default function Home() {
         </div>
       </section>
 
-      <section id="categories" className="section container">
+      <Reveal as="div" className="service-strip" direction="up">
+        <div className="container">
+          <div><BadgeCheck /><span><strong>Seçili modeller</strong><small>Güncel katalog</small></span></div>
+          <div><PackageCheck /><span><strong>Kolay sepet</strong><small>Tek listede toplayın</small></span></div>
+          <div><MessageCircle /><span><strong>Hızlı iletişim</strong><small>WhatsApp üzerinden sipariş</small></span></div>
+        </div>
+      </Reveal>
+
+      <Reveal as="section" id="categories" className="section container" direction="left">
         <div className="section-head">
           <div>
             <span className="eyebrow">KATEGORİLER</span>
@@ -187,7 +200,7 @@ export default function Home() {
             Tümü <ArrowRight size={17} />
           </Link>
         </div>
-        <div className="category-grid">
+        <div className="category-grid reveal-stagger">
           {categories.map((item, i) => {
             const Icon = icons[i] || Sparkles;
             const count = products.filter(
@@ -213,9 +226,9 @@ export default function Home() {
             );
           })}
         </div>
-      </section>
+      </Reveal>
 
-      <section className="section section-muted">
+      <Reveal as="section" className="section section-muted" direction="right">
         <div className="container">
           <div className="section-head">
             <div>
@@ -230,7 +243,7 @@ export default function Home() {
           {loading ? (
             <div className="loading-grid">Ürünler yükleniyor…</div>
           ) : (
-            <div className="product-grid home-featured-grid">
+            <div className="product-grid home-featured-grid reveal-stagger">
               {products
                 .filter((p) => p.featured)
                 .slice(0, 4)
@@ -240,7 +253,35 @@ export default function Home() {
             </div>
           )}
         </div>
-      </section>
+      </Reveal>
+
+      <Reveal as="section" className="section container" direction="up">
+        <div className="section-head">
+          <div>
+            <span className="eyebrow">YORUMLAR</span>
+            <h2>Müşteriler ne diyor</h2>
+          </div>
+          <Link to="/products">
+            Ürünleri gör <ArrowRight size={17} />
+          </Link>
+        </div>
+        <div className="testimonial-grid reveal-stagger">
+          {featuredStoreReviews.map((review) => (
+            <Link to={`/products/${review.productSlug}#reviews`} className="testimonial-card" key={review.id}>
+              <div className="review-stars" aria-hidden="true">
+                {Array.from({ length: 5 }).map((_, index) => (
+                  <Star key={index} className={index < review.rating ? "filled" : ""} />
+                ))}
+              </div>
+              <p>“{review.comment}”</p>
+              <div>
+                <strong>{review.reviewer_name}</strong>
+                <span>{review.productName}</span>
+              </div>
+            </Link>
+          ))}
+        </div>
+      </Reveal>
     </>
   );
 }

@@ -1,4 +1,5 @@
 import type { Category, Product } from "../types";
+import { attachRatings } from "./reviews";
 
 export const categories: Category[] = [
   { id: "audio", slug: "ses-kulaklik", name: "Ses & Kulaklık", description: "Kulaklıklar ve taşınabilir ses ürünleri", sort_order: 1, active: true },
@@ -12,7 +13,7 @@ const category = (id: string) => categories.find((item) => item.id === id)!;
 const image = (slug: string, name: string) => `images/products/${slug}/${name}.webp`;
 const feature = (label: string, value = "Var", sort_order = 0) => ({ label, value, sort_order });
 
-export const initialProducts: Product[] = [
+const catalogProducts: Product[] = [
   {
     id: "seed-wb65", slug: "yesido-wb65", name: "YESIDO WB65 Parmak İzi Kilitli Akıllı Sırt Çantası", brand: "YESIDO", model: "WB65", category_id: "bags",
     short_description: "Parmak izi kilidi, düzenli cihaz bölmeleri ve dayanıklı dış yüzeyi bir araya getiren akıllı sırt çantası.",
@@ -79,3 +80,5 @@ export const initialProducts: Product[] = [
     product_features: ["Isıtmalı kullanım", "Derin doku masajı", "Ergonomik tasarım", "USB ile şarj", "Taşınabilir yapı", "Boyun, omuz, sırt ve bel kullanımına uygun"].map((x, i) => feature(x, "", i))
   }
 ];
+
+export const initialProducts = attachRatings(catalogProducts);

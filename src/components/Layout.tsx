@@ -16,7 +16,7 @@ export function Layout() {
   return (
     <>
       <Header />
-      <main key={pathname} className="page-transition">
+      <main key={pathname} className="page-transition page-slide">
         <Outlet />
       </main>
       <Footer />

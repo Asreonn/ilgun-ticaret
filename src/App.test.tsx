@@ -15,7 +15,11 @@ test("ana sayfa marka ve kompakt ürün seçkisini gösterir", async () => {
   expect(screen.getByText("₺9.000,00")).toBeInTheDocument();
   expect(screen.getByText("₺499,00")).toBeInTheDocument();
   expect(screen.getByText("₺549,00")).toBeInTheDocument();
-  expect(screen.getAllByText("(0 yorum)")).toHaveLength(4);
+  expect(screen.getByText("(5 yorum)")).toBeInTheDocument();
+  expect(screen.getByText("(3 yorum)")).toBeInTheDocument();
+  expect(screen.getByText("(4 yorum)")).toBeInTheDocument();
+  expect(screen.getByText("(2 yorum)")).toBeInTheDocument();
+  expect(screen.getByText("Elif Kaya")).toBeInTheDocument();
   expect(screen.getAllByText("İLGÜN").length).toBeGreaterThan(0);
   const heroImage = screen.getAllByAltText("YESIDO WB65 Parmak İzi Kilitli Akıllı Sırt Çantası")[0];
   expect(heroImage.closest(".media-loader")).toHaveClass("is-loading");
@@ -29,8 +33,13 @@ test("ana sayfa marka ve kompakt ürün seçkisini gösterir", async () => {
 
 test("ürün detayında gerçek değerlendirme özeti görünür", () => {
   render(<HelmetProvider><MemoryRouter initialEntries={["/products/blic-bls-92"]} future={{ v7_startTransition: true, v7_relativeSplatPath: true }}><CatalogProvider><CartProvider><App/></CartProvider></CatalogProvider></MemoryRouter></HelmetProvider>);
-  expect(screen.getByText("Henüz puanlanmadı")).toBeInTheDocument();
-  expect(screen.getByText("0 yorum")).toBeInTheDocument();
+  expect(screen.getByRole("heading", { name: /Desk Sound Kablosuz Hoparlör/ })).toBeInTheDocument();
+  expect(screen.getAllByText("4.5").length).toBeGreaterThan(0);
+  expect(screen.getAllByText("4 yorum").length).toBeGreaterThan(0);
+  expect(screen.getAllByText("Gizem Nur").length).toBeGreaterThan(0);
+  expect(screen.queryByText(/demo/i)).not.toBeInTheDocument();
+  expect(screen.queryByText(/vitrin/i)).not.toBeInTheDocument();
+  expect(screen.queryByText(/yapay zeka/i)).not.toBeInTheDocument();
 });
 
 test("kategori yolu ilgili ürünleri filtreler", () => {
