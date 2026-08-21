@@ -35,7 +35,8 @@ export const initialProducts: Product[] = [
     id: "seed-bls92", slug: "blic-bls-92", name: "BLIC BLS-92 Desk Sound Kablosuz Hoparlör", brand: "BLIC", model: "BLS-92", category_id: "audio",
     short_description: "6W RMS çıkış, Bluetooth 5.4 ve entegre taşıma kulbuyla kompakt masaüstü hoparlör.",
     description: "BLIC BLS-92, siyah ve turuncu detaylara sahip kompakt bir kablosuz hoparlördür. Entegre kulbu taşımayı kolaylaştırır; USB ve TF kart desteği farklı ses kaynaklarıyla kullanım olanağı sunar.",
-    price: null, old_price: null, currency: "TRY", stock_quantity: 0, stock_status: "contact", featured: true, active: true, sort_order: 3,
+    price: 499, old_price: null, currency: "TRY", stock_quantity: 0, stock_status: "contact", featured: true, active: true, sort_order: 3,
+    price_source_url: "https://bulbultoptan.com/index.php?route=tool%2Fprice_list", price_checked_at: "2026-08-21T00:00:00+03:00", price_note: "Piyasa emsali satış fiyatı",
     main_image: image("blic-bls-92", "main"), source_url: "https://www.hafizakartci.com/toptan-blic-bls-92-askili-6w-mini-bluetooth-speaker.html", category: category("audio"),
     product_images: ["main", "01", "02"].map((name, i) => ({ image_path: image("blic-bls-92", name), alt_text: `BLIC BLS-92 hoparlör ${i + 1}`, sort_order: i })),
     product_features: [feature("Bluetooth", "5.4", 0), feature("Bağlantılar", "USB, TF kart", 1), feature("Batarya", "1200 mAh", 2), feature("Ses çıkışı", "6W RMS", 3), feature("Entegre taşıma kulbu", "Var", 4)]
@@ -44,7 +45,8 @@ export const initialProducts: Product[] = [
     id: "seed-bls96", slug: "blic-bls-96", name: "BLIC BLS-96 Smooth Sound Kablosuz Hoparlör", brand: "BLIC", model: "BLS-96", category_id: "audio",
     short_description: "Telefon standı, taşıma askısı ve çoklu bağlantı seçenekleri sunan kompakt kablosuz hoparlör.",
     description: "BLIC BLS-96, kompakt gövdesine telefon standı ve taşıma askısı ekleyen pratik bir ses çözümüdür. Bluetooth 5.4 bağlantısının yanında USB ve TF kart kaynaklarını destekler.",
-    price: null, old_price: null, currency: "TRY", stock_quantity: 0, stock_status: "contact", featured: true, active: true, sort_order: 4,
+    price: 549, old_price: null, currency: "TRY", stock_quantity: 0, stock_status: "contact", featured: true, active: true, sort_order: 4,
+    price_source_url: "https://www.akakce.com/bluetooth-hoparlor/en-ucuz-blic-tasinabilir-ses-bombasi-bls-06-fiyati%2C395054240.html", price_checked_at: "2026-08-21T00:00:00+03:00", price_note: "Piyasa emsali satış fiyatı",
     main_image: image("blic-bls-96", "main"), source_url: "https://www.hafizakartci.com/toptan-blic-bls-96-askili-6w-mini-bluetooth-speaker-telefon-tutuculu.html", category: category("audio"),
     product_images: ["main", "01", "02"].map((name, i) => ({ image_path: image("blic-bls-96", name), alt_text: `BLIC BLS-96 hoparlör ${i + 1}`, sort_order: i })),
     product_features: [feature("Bluetooth", "5.4", 0), feature("Bağlantılar", "USB, TF kart", 1), feature("Batarya", "1200 mAh", 2), feature("Ses çıkışı", "6W RMS", 3), feature("Dahili telefon standı", "Var", 4), feature("Taşıma askısı", "Var", 5)]

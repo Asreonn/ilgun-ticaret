@@ -13,6 +13,8 @@ test("ana sayfa marka ve kompakt ürün seçkisini gösterir", async () => {
   expect(screen.getAllByText("Sepete Ekle")).toHaveLength(4);
   expect(screen.getByText("₺6.899,00")).toBeInTheDocument();
   expect(screen.getByText("₺9.000,00")).toBeInTheDocument();
+  expect(screen.getByText("₺499,00")).toBeInTheDocument();
+  expect(screen.getByText("₺549,00")).toBeInTheDocument();
   expect(screen.getAllByText("İLGÜN").length).toBeGreaterThan(0);
 });
 
