@@ -4,6 +4,7 @@ import { Link } from "react-router-dom";
 import { formatPrice, imageUrl } from "../lib/site";
 import type { Product } from "../types";
 import { useCart } from "../context/CartContext";
+import { ImageWithLoader } from "./ImageWithLoader";
 
 export function ProductCard({ product }: { product: Product }) {
   const { addItem } = useCart();
@@ -21,7 +22,7 @@ export function ProductCard({ product }: { product: Product }) {
     : 0;
   return <article className="product-card">
     <Link to={`/products/${product.slug}`} className="product-image-wrap" aria-label={`${product.name} ürününü incele`}>
-      <img src={imageUrl(product.main_image)} alt={product.name} loading="lazy" width="640" height="640" onError={(e) => { e.currentTarget.src = `${import.meta.env.BASE_URL}placeholder.svg`; }} />
+      <ImageWithLoader src={imageUrl(product.main_image)} alt={product.name} loading="lazy" width="640" height="640" />
       {product.featured && <span className="featured-badge">Öne Çıkan</span>}
       {discount > 0 && <span className="discount-badge">%{discount} avantaj</span>}
     </Link>

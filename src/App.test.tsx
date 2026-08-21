@@ -17,6 +17,10 @@ test("ana sayfa marka ve kompakt ürün seçkisini gösterir", async () => {
   expect(screen.getByText("₺549,00")).toBeInTheDocument();
   expect(screen.getAllByText("(0 yorum)")).toHaveLength(4);
   expect(screen.getAllByText("İLGÜN").length).toBeGreaterThan(0);
+  const heroImage = screen.getAllByAltText("YESIDO WB65 Parmak İzi Kilitli Akıllı Sırt Çantası")[0];
+  expect(heroImage.closest(".media-loader")).toHaveClass("is-loading");
+  fireEvent.load(heroImage);
+  expect(heroImage.closest(".media-loader")).toHaveClass("is-loaded");
 });
 
 test("ürün detayında gerçek değerlendirme özeti görünür", () => {
