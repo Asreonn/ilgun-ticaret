@@ -62,11 +62,14 @@ export function ProductSlider<T>({
     onIndexChange?.(normalized);
   }, [current, index, items.length, onIndexChange]);
 
+  const hoverCanPause = () => typeof window.matchMedia === "function"
+    && window.matchMedia("(hover: hover) and (pointer: fine)").matches;
+
   useEffect(() => {
     if (items.length < 2 || paused || autoPlayMs < 1) return;
     if (typeof window.matchMedia === "function" && window.matchMedia("(prefers-reduced-motion: reduce)").matches) return;
-    const timer = window.setTimeout(() => go(current + 1), autoPlayMs);
-    return () => window.clearTimeout(timer);
+    const timer = window.setInterval(() => go(current + 1), autoPlayMs);
+    return () => window.clearInterval(timer);
   }, [autoPlayMs, current, go, items.length, paused]);
 
   if (!items.length) return null;
@@ -75,9 +78,13 @@ export function ProductSlider<T>({
     <div
       className={`product-slider ${hasSlid ? "has-slid" : ""} ${paused ? "is-paused" : ""} ${className}`}
       data-direction={direction}
-      onMouseEnter={() => setPaused(true)}
+      onMouseEnter={() => {
+        if (hoverCanPause()) setPaused(true);
+      }}
       onMouseLeave={() => setPaused(false)}
-      onFocusCapture={() => setPaused(true)}
+      onFocusCapture={(event) => {
+        if (event.target instanceof HTMLButtonElement) setPaused(true);
+      }}
       onBlurCapture={(event) => {
         if (!event.currentTarget.contains(event.relatedTarget)) setPaused(false);
       }}

@@ -61,7 +61,7 @@ export default function Home() {
             className="hero-showcase"
             items={heroProducts}
             getKey={(product) => product.id}
-            autoPlayMs={4800}
+            autoPlayMs={7000}
             renderSlide={(product) => {
               const discount = product.price != null && product.old_price != null && product.old_price > product.price
                 ? Math.round((1 - product.price / product.old_price) * 100)
