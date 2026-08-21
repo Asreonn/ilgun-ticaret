@@ -11,14 +11,8 @@ import { ProductReviews } from "../components/ProductReviews";
 import { ImageWithLoader } from "../components/ImageWithLoader";
 import { ProductSlider } from "../components/ProductSlider";
 import { StickyActions } from "../components/StickyActions";
-import type { ProductFeature } from "../types";
 
 const stockText = { in_stock: "Stokta", low_stock: "Sınırlı stok", out_of_stock: "Stokta yok", contact: "Stok için iletişime geçin" };
-
-function isMeasuredFeature(feature: ProductFeature) {
-  const value = feature.value?.trim();
-  return Boolean(value) && value !== "Var";
-}
 
 export default function ProductDetail() {
   const { slug } = useParams();
@@ -32,8 +26,6 @@ export default function ProductDetail() {
   if (!product) return <div className="page-shell container empty-state"><h1>Ürün bulunamadı</h1><Link className="button primary" to="/products">Kataloğa dön</Link></div>;
   const images = product.product_images.length ? product.product_images : [{ image_path: product.main_image, alt_text: product.name, sort_order: 0 }];
   const description = product.short_description;
-  const specs = product.product_features.filter(isMeasuredFeature).slice(0, 6);
-  const highlights = product.product_features.filter((feature) => !isMeasuredFeature(feature)).slice(0, 6);
   const addToCart = () => { addItem(product); setAdded(true); };
   const orderLabel = product.price == null ? "Teklif al" : "Sipariş ver";
   const jsonLd: Record<string, unknown> = { "@context": "https://schema.org", "@type": "Product", name: product.name, image: images.map((x) => `${site.url}/${x.image_path}`), description, sku: product.model, brand: product.brand ? { "@type": "Brand", name: product.brand } : undefined };
@@ -54,7 +46,7 @@ export default function ProductDetail() {
           <a className="detail-rating" href="#reviews">
             <span className="rating-stars" aria-hidden="true">{Array.from({ length: 5 }).map((_, index) => <Star key={index} className={index < Math.round(product.rating_average || 0) ? "filled" : ""}/>)}</span>
             <strong>{product.review_count ? product.rating_average?.toFixed(1) : "Henüz puanlanmadı"}</strong>
-            <span>{product.review_count || 0} yorum</span>
+            <span>{product.review_count || 0} değerlendirme</span>
           </a>
           <p className="lead">{product.short_description}</p>
           <div className="price-block">
@@ -62,32 +54,21 @@ export default function ProductDetail() {
             {product.old_price != null && <del>{formatPrice(product.old_price, product.currency)}</del>}
             <span className={`stock ${product.stock_status}`}><PackageCheck size={17} /> {stockText[product.stock_status]}</span>
           </div>
-          {(specs.length > 0 || highlights.length > 0) && (
-            <div className="product-highlights">
-              {specs.length > 0 && (
-                <dl className="spec-preview">
-                  {specs.map((feature, index) => (
-                    <div key={`${feature.label}-${index}`}>
-                      <dt>{feature.label}</dt>
-                      <dd>{feature.value}</dd>
-                    </div>
-                  ))}
-                </dl>
-              )}
-              {highlights.length > 0 && (
-                <ul className="quick-features">
-                  {highlights.map((feature, index) => (
-                    <li key={`${feature.label}-${index}`}><Check size={16} /><span>{feature.label}</span></li>
-                  ))}
-                </ul>
-              )}
-            </div>
-          )}
         </div>
       </div>
       <section className="description-panel">
-        <div><span className="eyebrow">ÜRÜN HAKKINDA</span><h2>Detaylar</h2><p>{product.description}</p></div>
-        <div><h2>Teknik özellikler</h2><dl>{product.product_features.map((f, i) => <div key={`${f.label}-${i}`}><dt>{f.label}</dt><dd>{f.value || "Var"}</dd></div>)}</dl></div>
+        <div>
+          <h2>Detaylar</h2>
+          <p>{product.description}</p>
+        </div>
+        <dl>
+          {product.product_features.map((feature, index) => (
+            <div key={`${feature.label}-${index}`}>
+              <dt>{feature.label}</dt>
+              <dd>{feature.value || "Var"}</dd>
+            </div>
+          ))}
+        </dl>
       </section>
       <ProductReviews productId={product.id} productSlug={product.slug}/>
       {related.length > 0 && <section className="related section"><div className="section-head"><h2>Benzer ürünler</h2><Link to={`/products/category/${product.category?.slug}`}>Kategoriyi gör</Link></div><div className="product-grid">{related.map((item) => <ProductCard key={item.id} product={item} />)}</div></section>}

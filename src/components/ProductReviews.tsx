@@ -5,6 +5,8 @@ import { isSupabaseConfigured, supabase } from "../lib/supabase";
 import type { ProductReview } from "../types";
 import { Reveal } from "./Reveal";
 
+const ratingCopy = ["", "Kötü", "Zayıf", "İdare eder", "İyi", "Mükemmel"];
+
 function initials(name: string) {
   return name
     .split(" ")
@@ -44,7 +46,7 @@ export function ProductReviews({ productId, productSlug }: { productId: string; 
     event.preventDefault();
     if (website) return;
     if (!supabase || !isSupabaseConfigured || productId.startsWith("seed-")) {
-      setStatus("Yorum sistemi şu an kullanılamıyor.");
+      setStatus("Değerlendirme sistemi şu an kullanılamıyor.");
       return;
     }
     setSending(true);
@@ -57,9 +59,9 @@ export function ProductReviews({ productId, productSlug }: { productId: string; 
       approved: false
     });
     if (error) {
-      setStatus("Yorum gönderilemedi. Lütfen daha sonra yeniden deneyin.");
+      setStatus("Gönderilemedi. Lütfen daha sonra yeniden deneyin.");
     } else {
-      setStatus("Teşekkürler. Yorumunuz kontrol edildikten sonra yayınlanacaktır.");
+      setStatus("Teşekkürler. Değerlendirmeniz kontrol edildikten sonra yayınlanacaktır.");
       setName("");
       setComment("");
       setRating(5);
@@ -75,12 +77,12 @@ export function ProductReviews({ productId, productSlug }: { productId: string; 
     <Reveal as="section" className="reviews-section" id="reviews" direction="up">
       <div className="reviews-heading">
         <div>
-          <span className="eyebrow">DEĞERLENDİRMELER</span>
-          <h2>Ürün yorumları</h2>
+          <span className="eyebrow">PUANLAR</span>
+          <h2>Ürünü değerlendirin</h2>
         </div>
         <div className="review-score">
           <strong>{reviews.length ? average.toFixed(1) : "—"}</strong>
-          <span>{reviews.length ? `${reviews.length} yorum` : "Henüz yorum yok"}</span>
+          <span>{reviews.length ? `${reviews.length} değerlendirme` : "Henüz puan yok"}</span>
         </div>
       </div>
       <div className="reviews-grid">
@@ -102,26 +104,29 @@ export function ProductReviews({ productId, productSlug }: { productId: string; 
           )) : (
             <div className="no-reviews">
               <MessageSquareText />
-              <h3>İlk değerlendirmeyi siz yapın</h3>
-              <p>Bu ürün için henüz yayınlanmış müşteri yorumu bulunmuyor.</p>
+              <h3>İlk puanı siz verin</h3>
+              <p>Bu ürün için henüz yayınlanmış bir değerlendirme yok.</p>
             </div>
           )}
         </div>
         <form className="review-form" onSubmit={submit}>
-          <h3>Ürünü değerlendirin</h3>
-          <p>Yorumlar doğrulandıktan sonra yayınlanır.</p>
-          <div className="rating-input" role="radiogroup" aria-label="Puan">
-            {[1, 2, 3, 4, 5].map((value) => (
-              <button type="button" key={value} onClick={() => setRating(value)} aria-label={`${value} yıldız`} aria-pressed={rating === value}>
-                <Star className={value <= rating ? "filled" : ""} />
-              </button>
-            ))}
+          <h3>Puanınızı seçin</h3>
+          <p>Kısa deneyiminiz onaylandıktan sonra yayınlanır.</p>
+          <div className="rating-picker">
+            <div className="rating-input" role="radiogroup" aria-label="Puan">
+              {[1, 2, 3, 4, 5].map((value) => (
+                <button type="button" key={value} onClick={() => setRating(value)} aria-label={`${value} yıldız`} aria-pressed={rating === value}>
+                  <Star className={value <= rating ? "filled" : ""} />
+                </button>
+              ))}
+            </div>
+            <strong>{rating}/5 · {ratingCopy[rating]}</strong>
           </div>
-          <label>Adınız<input minLength={2} maxLength={60} value={name} onChange={(event) => setName(event.target.value)} required /></label>
-          <label>Yorumunuz<textarea minLength={10} maxLength={800} rows={5} value={comment} onChange={(event) => setComment(event.target.value)} required /></label>
+          <label>Adınız<input minLength={2} maxLength={60} value={name} onChange={(event) => setName(event.target.value)} placeholder="Adınız" required /></label>
+          <label>Deneyiminiz<textarea minLength={10} maxLength={800} rows={4} value={comment} onChange={(event) => setComment(event.target.value)} placeholder="Ürünü nasıl buldunuz?" required /></label>
           <label className="honeypot" aria-hidden="true">Web sitesi<input tabIndex={-1} autoComplete="off" value={website} onChange={(event) => setWebsite(event.target.value)} /></label>
           {status && <div className="review-status" role="status">{status}</div>}
-          <button className="button primary" disabled={sending}><Send size={17} />{sending ? "Gönderiliyor…" : "Yorumu Gönder"}</button>
+          <button className="button primary" disabled={sending}><Send size={17} />{sending ? "Gönderiliyor…" : "Değerlendirmeyi gönder"}</button>
         </form>
       </div>
     </Reveal>

@@ -35,7 +35,7 @@ test("ürün detayında gerçek değerlendirme özeti görünür", () => {
   render(<HelmetProvider><MemoryRouter initialEntries={["/products/blic-bls-92"]} future={{ v7_startTransition: true, v7_relativeSplatPath: true }}><CatalogProvider><CartProvider><App/></CartProvider></CatalogProvider></MemoryRouter></HelmetProvider>);
   expect(screen.getByRole("heading", { name: /Desk Sound Kablosuz Hoparlör/ })).toBeInTheDocument();
   expect(screen.getAllByText("4.5").length).toBeGreaterThan(0);
-  expect(screen.getAllByText("4 yorum").length).toBeGreaterThan(0);
+  expect(screen.getAllByText("4 değerlendirme").length).toBeGreaterThan(0);
   expect(screen.getAllByText("Gizem Nur").length).toBeGreaterThan(0);
   expect(screen.queryByText(/demo/i)).not.toBeInTheDocument();
   expect(screen.queryByText(/vitrin/i)).not.toBeInTheDocument();

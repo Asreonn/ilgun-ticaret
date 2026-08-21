@@ -1,7 +1,7 @@
 import { Menu, MessageCircle, ShoppingBag, X } from "lucide-react";
 import { useState } from "react";
 import { Link, NavLink } from "react-router-dom";
-import { site, whatsappUrl } from "../lib/site";
+import { whatsappUrl } from "../lib/site";
 import { useCart } from "../context/CartContext";
 
 const nav = [
@@ -12,7 +12,7 @@ export function Header() {
   const [open, setOpen] = useState(false);
   const { totalItems } = useCart();
   return <>
-    <div className="topbar"><div className="container topbar-inner"><span>Elektronik • Aksesuar • Küçük Ev Aletleri</span><span>{site.contact} · {site.phoneDisplay}</span></div></div>
+    <div className="topbar"><div className="container topbar-inner"><span>Elektronik • Aksesuar • Küçük Ev Aletleri</span></div></div>
     <header className="header">
       <div className="container header-inner">
         <Link to="/" className="logo" aria-label="İlgün Ticaret ana sayfa"><span>İLGÜN</span><small>TİCARET</small></Link>
