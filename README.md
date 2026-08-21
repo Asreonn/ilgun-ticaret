@@ -77,7 +77,7 @@ Kart görselleri 1:1 alanda `object-fit: contain` kullanır. Yeni bir başlangı
 
 ## İletişim ayarları
 
-Frontend iletişim bilgileri `src/lib/site.ts` dosyasındadır. Veritabanındaki karşılıkları `site_settings` tablosunda bulunur. WhatsApp numarası değiştirilirken hem `whatsapp` hem görünen `phone` değerini ve frontend config'ini güncelleyin.
+Frontend iletişim bilgileri `src/lib/site.ts` dosyasındadır. Veritabanındaki karşılıkları `site_settings` tablosunda bulunur. Telefon, WhatsApp, hizmet bölgesi ve harita bağlantısı buradan yönetilir. WhatsApp numarası değiştirilirken hem `whatsapp` hem görünen `phone` değerini ve frontend config'ini güncelleyin. `/contact` sayfasındaki form veri toplamaz; hazırlanan mesajı doğrudan WhatsApp'ta açar.
 
 ## Test ve production build
 

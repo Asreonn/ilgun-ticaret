@@ -6,12 +6,14 @@ import Products from "./pages/Products";
 import ProductDetail from "./pages/ProductDetail";
 import NotFound from "./pages/NotFound";
 import Cart from "./pages/Cart";
+import Categories from "./pages/Categories";
+import Contact from "./pages/Contact";
 
 const Admin = lazy(() => import("./pages/Admin"));
 
 export default function App() {
   return <Suspense fallback={<div className="page-shell container">Yükleniyor…</div>}><Routes>
-    <Route element={<Layout />}><Route path="/" element={<Home/>}/><Route path="/products" element={<Products/>}/><Route path="/products/:slug" element={<ProductDetail/>}/><Route path="/cart" element={<Cart/>}/><Route path="/urunler" element={<Navigate to="/products" replace/>}/><Route path="*" element={<NotFound/>}/></Route>
+    <Route element={<Layout />}><Route path="/" element={<Home/>}/><Route path="/products" element={<Products/>}/><Route path="/products/category/:categorySlug" element={<Products/>}/><Route path="/products/:slug" element={<ProductDetail/>}/><Route path="/categories" element={<Categories/>}/><Route path="/contact" element={<Contact/>}/><Route path="/cart" element={<Cart/>}/><Route path="/urunler" element={<Navigate to="/products" replace/>}/><Route path="*" element={<NotFound/>}/></Route>
     <Route path="/admin" element={<Admin/>}/>
   </Routes></Suspense>;
 }
