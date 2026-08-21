@@ -37,6 +37,12 @@ test("ürün detayında gerçek değerlendirme özeti görünür", () => {
   expect(screen.getAllByText("4.5").length).toBeGreaterThan(0);
   expect(screen.getAllByText("4 değerlendirme").length).toBeGreaterThan(0);
   expect(screen.getAllByText("Gizem Nur").length).toBeGreaterThan(0);
+  const photoButtons = screen.getAllByRole("button", { name: "Gizem Nur fotoğrafını incele" });
+  expect(photoButtons.length).toBeGreaterThan(0);
+  fireEvent.click(photoButtons[0]);
+  expect(screen.getByRole("dialog", { name: /Gizem Nur fotoğrafı/ })).toBeInTheDocument();
+  fireEvent.click(screen.getByRole("button", { name: "Kapat" }));
+  expect(screen.queryByRole("dialog")).not.toBeInTheDocument();
   expect(screen.queryByText(/demo/i)).not.toBeInTheDocument();
   expect(screen.queryByText(/vitrin/i)).not.toBeInTheDocument();
   expect(screen.queryByText(/yapay zeka/i)).not.toBeInTheDocument();

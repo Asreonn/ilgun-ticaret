@@ -1,9 +1,12 @@
-import { MessageSquareText, Send, Star } from "lucide-react";
-import { useEffect, useState, type FormEvent } from "react";
+import { Camera, MessageSquareText, Send, Star } from "lucide-react";
+import { useEffect, useMemo, useState, type FormEvent } from "react";
 import { reviewsForProduct } from "../data/reviews";
+import { imageUrl } from "../lib/site";
 import { isSupabaseConfigured, supabase } from "../lib/supabase";
 import type { ProductReview } from "../types";
+import { ImageWithLoader } from "./ImageWithLoader";
 import { Reveal } from "./Reveal";
+import { ReviewPhotoViewer, type ReviewPhotoItem } from "./ReviewPhotoViewer";
 
 const ratingCopy = ["", "Kötü", "Zayıf", "İdare eder", "İyi", "Mükemmel"];
 
@@ -17,6 +20,19 @@ function initials(name: string) {
     .toLocaleUpperCase("tr-TR");
 }
 
+function reviewImages(review?: Pick<ProductReview, "images">) {
+  return (review?.images ?? []).filter(Boolean);
+}
+
+function mergeReviews(remote: ProductReview[], local: ProductReview[]) {
+  const byName = new Map(local.map((review) => [review.reviewer_name, review]));
+  return remote.map((review) => {
+    const seed = byName.get(review.reviewer_name);
+    const images = reviewImages(review).length ? reviewImages(review) : reviewImages(seed);
+    return { ...review, images };
+  });
+}
+
 export function ProductReviews({ productId, productSlug }: { productId: string; productSlug?: string }) {
   const seedReviews = reviewsForProduct(productId, productSlug);
   const [reviews, setReviews] = useState<ProductReview[]>(seedReviews);
@@ -26,6 +42,7 @@ export function ProductReviews({ productId, productSlug }: { productId: string; 
   const [website, setWebsite] = useState("");
   const [status, setStatus] = useState("");
   const [sending, setSending] = useState(false);
+  const [viewerIndex, setViewerIndex] = useState<number | null>(null);
 
   useEffect(() => {
     const local = reviewsForProduct(productId, productSlug);
@@ -38,9 +55,14 @@ export function ProductReviews({ productId, productSlug }: { productId: string; 
       .eq("approved", true)
       .order("created_at", { ascending: false })
       .then(({ data }) => {
-        if (data?.length) setReviews(data as ProductReview[]);
+        if (data?.length) setReviews(mergeReviews(data as ProductReview[], local));
       });
   }, [productId, productSlug]);
+
+  const photos = useMemo<ReviewPhotoItem[]>(
+    () => reviews.flatMap((review) => reviewImages(review).map((src) => ({ src, review }))),
+    [reviews]
+  );
 
   const submit = async (event: FormEvent) => {
     event.preventDefault();
@@ -73,6 +95,11 @@ export function ProductReviews({ productId, productSlug }: { productId: string; 
     ? reviews.reduce((sum, item) => sum + item.rating, 0) / reviews.length
     : 0;
 
+  const openPhoto = (src: string, review: ProductReview) => {
+    const next = photos.findIndex((item) => item.src === src && item.review.id === review.id);
+    setViewerIndex(next >= 0 ? next : 0);
+  };
+
   return (
     <Reveal as="section" className="reviews-section" id="reviews" direction="up">
       <div className="reviews-heading">
@@ -85,6 +112,27 @@ export function ProductReviews({ productId, productSlug }: { productId: string; 
           <span>{reviews.length ? `${reviews.length} değerlendirme` : "Henüz puan yok"}</span>
         </div>
       </div>
+      {photos.length > 0 && (
+        <div className="review-photos">
+          <div className="review-photos-head">
+            <strong><Camera size={16} /> Müşteri fotoğrafları</strong>
+            <span>{photos.length} fotoğraf</span>
+          </div>
+          <div className="review-photos-strip">
+            {photos.map((photo, index) => (
+              <button
+                type="button"
+                key={`${photo.review.id}-${photo.src}`}
+                className="review-photo-thumb"
+                onClick={() => setViewerIndex(index)}
+                aria-label={`${photo.review.reviewer_name} fotoğrafını incele`}
+              >
+                <ImageWithLoader src={imageUrl(photo.src)} alt="" />
+              </button>
+            ))}
+          </div>
+        </div>
+      )}
       <div className="reviews-grid">
         <div className="review-list">
           {reviews.length ? reviews.map((review) => (
@@ -95,7 +143,16 @@ export function ProductReviews({ productId, productSlug }: { productId: string; 
                   {Array.from({ length: 5 }).map((_, i) => <Star key={i} className={i < review.rating ? "filled" : ""} />)}
                 </div>
               </div>
-              <p>“{review.comment}”</p>
+              <p>{review.comment}</p>
+              {reviewImages(review).length > 0 && (
+                <div className="review-card-photos">
+                  {reviewImages(review).map((src) => (
+                    <button type="button" key={src} onClick={() => openPhoto(src, review)} aria-label={`${review.reviewer_name} fotoğrafını incele`}>
+                      <ImageWithLoader src={imageUrl(src)} alt="" />
+                    </button>
+                  ))}
+                </div>
+              )}
               <div>
                 <strong>{review.reviewer_name}</strong>
                 <time>{new Intl.DateTimeFormat("tr-TR", { dateStyle: "medium" }).format(new Date(review.created_at))}</time>
@@ -129,6 +186,14 @@ export function ProductReviews({ productId, productSlug }: { productId: string; 
           <button className="button primary" disabled={sending}><Send size={17} />{sending ? "Gönderiliyor…" : "Değerlendirmeyi gönder"}</button>
         </form>
       </div>
+      {viewerIndex != null && photos[viewerIndex] && (
+        <ReviewPhotoViewer
+          items={photos}
+          index={viewerIndex}
+          onIndexChange={setViewerIndex}
+          onClose={() => setViewerIndex(null)}
+        />
+      )}
     </Reveal>
   );
 }

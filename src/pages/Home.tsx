@@ -156,12 +156,17 @@ export default function Home() {
         <div className="testimonial-grid">
           {featuredStoreReviews.map((review) => (
             <Link to={`/products/${review.productSlug}#reviews`} className="testimonial-card" key={review.id}>
+              {review.images?.[0] && (
+                <div className="testimonial-photo">
+                  <ImageWithLoader src={imageUrl(review.images[0])} alt="" />
+                </div>
+              )}
               <div className="review-stars" aria-hidden="true">
                 {Array.from({ length: 5 }).map((_, starIndex) => (
                   <Star key={starIndex} className={starIndex < review.rating ? "filled" : ""} />
                 ))}
               </div>
-              <p>“{review.comment}”</p>
+              <p>{review.comment}</p>
               <div>
                 <strong>{review.reviewer_name}</strong>
                 <span>{review.productName}</span>
