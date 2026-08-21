@@ -1,0 +1,29 @@
+import { Menu, MessageCircle, X } from "lucide-react";
+import { useState } from "react";
+import { Link, NavLink } from "react-router-dom";
+import { site, whatsappUrl } from "../lib/site";
+
+const nav = [
+  ["Ana Sayfa", "/"], ["Ürünler", "/products"], ["Kategoriler", "/#categories"], ["Hakkımızda", "/#about"], ["İletişim", "/#contact"]
+];
+
+export function Header() {
+  const [open, setOpen] = useState(false);
+  return <>
+    <div className="topbar"><div className="container topbar-inner"><span>Elektronik • Aksesuar • Küçük Ev Aletleri</span><span>{site.contact} · {site.phoneDisplay}</span></div></div>
+    <header className="header">
+      <div className="container header-inner">
+        <Link to="/" className="logo" aria-label="İlgün Ticaret ana sayfa"><span>İLGÜN</span><small>TİCARET</small></Link>
+        <nav className="desktop-nav" aria-label="Ana menü">
+          {nav.map(([label, to]) => to.includes("#") ? <a key={to} href={`${import.meta.env.BASE_URL}${to.slice(1)}`}>{label}</a> : <NavLink key={to} to={to}>{label}</NavLink>)}
+        </nav>
+        <a className="button whatsapp header-cta" href={whatsappUrl()} target="_blank" rel="noreferrer"><MessageCircle size={18} /> WhatsApp</a>
+        <button className="menu-button" onClick={() => setOpen((x) => !x)} aria-label={open ? "Menüyü kapat" : "Menüyü aç"} aria-expanded={open}>{open ? <X /> : <Menu />}</button>
+      </div>
+      {open && <nav className="mobile-nav container" aria-label="Mobil menü">
+        {nav.map(([label, to]) => to.includes("#") ? <a key={to} onClick={() => setOpen(false)} href={`${import.meta.env.BASE_URL}${to.slice(1)}`}>{label}</a> : <NavLink key={to} onClick={() => setOpen(false)} to={to}>{label}</NavLink>)}
+        <a className="button whatsapp" href={whatsappUrl()} target="_blank" rel="noreferrer"><MessageCircle size={18} /> WhatsApp</a>
+      </nav>}
+    </header>
+  </>;
+}
