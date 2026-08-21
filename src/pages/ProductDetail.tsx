@@ -12,7 +12,7 @@ import { ImageWithLoader } from "../components/ImageWithLoader";
 import { ProductSlider } from "../components/ProductSlider";
 import { StickyActions } from "../components/StickyActions";
 
-const stockText = { in_stock: "Stokta", low_stock: "Sınırlı stok", out_of_stock: "Stokta yok", contact: "Stok için iletişime geçin" };
+const stockText = { in_stock: "Stokta mevcut", low_stock: "Stokta · 2-3 adet", out_of_stock: "Stokta yok", contact: "Stokta · 2-3 adet" };
 
 export default function ProductDetail() {
   const { slug } = useParams();

@@ -37,18 +37,13 @@ export function ReviewPhotoViewer({ items, index, onIndexChange, onClose }: Revi
   }, [index]);
 
   useEffect(() => {
-    const html = document.documentElement;
-    html.classList.add("review-viewer-open");
     const onKey = (event: KeyboardEvent) => {
       if (event.key === "Escape") onClose();
       if (event.key === "ArrowRight") onIndexChange((index + 1) % items.length);
       if (event.key === "ArrowLeft") onIndexChange((index - 1 + items.length) % items.length);
     };
     window.addEventListener("keydown", onKey);
-    return () => {
-      html.classList.remove("review-viewer-open");
-      window.removeEventListener("keydown", onKey);
-    };
+    return () => window.removeEventListener("keydown", onKey);
   }, [index, items.length, onClose, onIndexChange]);
 
   const title = useMemo(
@@ -110,8 +105,8 @@ export function ReviewPhotoViewer({ items, index, onIndexChange, onClose }: Revi
   };
 
   return (
-    <div className="review-viewer" role="dialog" aria-modal="true" aria-label={title} onClick={onClose}>
-      <div className="review-viewer-shell" onClick={(event) => event.stopPropagation()}>
+    <div className="review-viewer" role="dialog" aria-modal="false" aria-label={title}>
+      <div className="review-viewer-shell">
         <button className="review-viewer-close" type="button" onClick={onClose} aria-label="Kapat">
           <X size={20} />
         </button>
