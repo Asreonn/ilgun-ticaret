@@ -5,14 +5,12 @@ import { Link, useParams } from "react-router-dom";
 import { PageMeta } from "../components/PageMeta";
 import { ProductCard } from "../components/ProductCard";
 import { useCatalog } from "../context/CatalogContext";
-import { formatPrice, imageUrl, site, whatsappUrl } from "../lib/site";
+import { formatPrice, formatStockLabel, imageUrl, site, whatsappUrl } from "../lib/site";
 import { useCart } from "../context/CartContext";
 import { ProductReviews } from "../components/ProductReviews";
 import { ImageWithLoader } from "../components/ImageWithLoader";
 import { ProductSlider } from "../components/ProductSlider";
 import { StickyActions } from "../components/StickyActions";
-
-const stockText = { in_stock: "Stokta mevcut", low_stock: "Stokta · 2-3 adet", out_of_stock: "Stokta yok", contact: "Stokta · 2-3 adet" };
 
 export default function ProductDetail() {
   const { slug } = useParams();
@@ -52,7 +50,7 @@ export default function ProductDetail() {
           <div className="price-block">
             <strong>{formatPrice(product.price, product.currency)}</strong>
             {product.old_price != null && <del>{formatPrice(product.old_price, product.currency)}</del>}
-            <span className={`stock ${product.stock_status}`}><PackageCheck size={17} /> {stockText[product.stock_status]}</span>
+            <span className={`stock ${product.stock_quantity <= 2 ? "low_stock" : product.stock_status}`}><PackageCheck size={17} /> {formatStockLabel(product.stock_quantity, product.stock_status)}</span>
           </div>
           <div className="detail-actions">
             <button className={`button primary ${added ? "added" : ""}`} onClick={addToCart}>{added ? <Check size={18}/> : <ShoppingBag size={18}/>} {added ? "Sepete eklendi" : "Sepete ekle"}</button>

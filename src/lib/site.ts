@@ -34,6 +34,11 @@ export function imageUrl(path: string) {
   return `${import.meta.env.BASE_URL}${path.replace(/^\//, "")}`;
 }
 
+export function formatStockLabel(quantity: number, status?: string) {
+  if (status === "out_of_stock" || quantity <= 0) return "Stokta yok";
+  return `Stokta · ${quantity} adet`;
+}
+
 export function formatPrice(price: number | null, currency = "TRY") {
   if (price == null) return "Fiyat için iletişime geçin";
   return new Intl.NumberFormat("tr-TR", { style: "currency", currency }).format(price);
