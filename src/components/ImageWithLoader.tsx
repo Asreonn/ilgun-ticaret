@@ -1,6 +1,9 @@
 import { type ImgHTMLAttributes, useEffect, useState } from "react";
 
-type ImageWithLoaderProps = Omit<ImgHTMLAttributes<HTMLImageElement>, "onLoad" | "onError"> & {
+type ImageWithLoaderProps = Omit<
+  ImgHTMLAttributes<HTMLImageElement>,
+  "onLoad" | "onError"
+> & {
   fallbackSrc?: string;
 };
 
@@ -21,6 +24,7 @@ export function ImageWithLoader({
   return (
     <span className={`media-loader ${loaded ? "is-loaded" : "is-loading"}`}>
       <span className="media-skeleton" aria-hidden="true" />
+      <span className="media-spinner" aria-hidden="true" />
       <img
         {...props}
         className={className}

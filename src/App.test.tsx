@@ -8,7 +8,7 @@ import { CatalogProvider } from "./context/CatalogContext";
 import { CartProvider } from "./context/CartContext";
 
 test("ana sayfa marka ve kompakt ürün seçkisini gösterir", async () => {
-  render(<HelmetProvider><MemoryRouter future={{ v7_startTransition: true, v7_relativeSplatPath: true }}><CatalogProvider><CartProvider><App/></CartProvider></CatalogProvider></MemoryRouter></HelmetProvider>);
+  const { container } = render(<HelmetProvider><MemoryRouter future={{ v7_startTransition: true, v7_relativeSplatPath: true }}><CatalogProvider><CartProvider><App/></CartProvider></CatalogProvider></MemoryRouter></HelmetProvider>);
   expect(screen.getByRole("heading", { name: "Teknoloji seçkisini keşfedin" })).toBeInTheDocument();
   expect(screen.getAllByText("Sepete Ekle")).toHaveLength(4);
   expect(screen.getByText("₺6.899,00")).toBeInTheDocument();
@@ -20,6 +20,10 @@ test("ana sayfa marka ve kompakt ürün seçkisini gösterir", async () => {
   const heroImage = screen.getAllByAltText("YESIDO WB65 Parmak İzi Kilitli Akıllı Sırt Çantası")[0];
   expect(heroImage.closest(".media-loader")).toHaveClass("is-loading");
   fireEvent.load(heroImage);
+  expect(heroImage.closest(".media-loader")).toHaveClass("is-loaded");
+  expect(container.querySelectorAll(".hero-product-slide")).toHaveLength(5);
+  fireEvent.click(screen.getByRole("button", { name: "Sonraki ürün" }));
+  expect(container.querySelectorAll(".hero-product-slide")).toHaveLength(5);
   expect(heroImage.closest(".media-loader")).toHaveClass("is-loaded");
 });
 
