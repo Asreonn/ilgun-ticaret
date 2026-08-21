@@ -336,18 +336,18 @@
   z-index:80;
   position:fixed;
   inset:0;
-  background:transparent;
+  background:#0f172a66;
   pointer-events:none;
   overflow:visible;
-  padding:0
+  padding:16px;
+  display:grid;
+  place-items:center
 }
 .review-viewer-shell{
   pointer-events:auto;
-  position:fixed;
-  top:88px;
-  right:16px;
-  width:min(400px, calc(100vw - 24px));
-  max-height:calc(100dvh - 108px);
+  position:relative;
+  width:min(400px, calc(100vw - 32px));
+  max-height:min(78dvh, 720px);
   overflow:auto;
   overscroll-behavior:contain;
   background:#111827;
@@ -355,7 +355,8 @@
   display:grid;
   grid-template-columns:1fr;
   grid-template-areas:"stage" "thumbs" "meta";
-  box-shadow:0 24px 60px #0f172a59
+  box-shadow:0 28px 70px #0f172a73, 0 0 0 1px #ffffff2e;
+  animation:.22s ease-out both review-viewer-in
 }
 .review-viewer-close{
   z-index:4;
@@ -481,19 +482,21 @@
 .admin-review-photos img{width:56px;height:56px;object-fit:cover;border-radius:8px;border:1px solid var(--border)}
 a.review-photo-thumb{display:block;color:inherit}
 @media (width<=860px){
+  .review-viewer{padding:12px}
   .review-viewer-shell{
-    top:auto;
-    right:12px;
-    left:12px;
-    bottom:12px;
-    width:auto;
-    max-height:min(72dvh, 640px)
+    width:min(440px, calc(100vw - 24px));
+    max-height:min(58dvh, 520px)
   }
   .review-viewer-stage{min-height:220px;height:220px}
   .review-viewer-image .media-loader,.review-viewer-image img{max-height:220px}
   .review-viewer-meta{padding:16px}
   .review-photos-strip{grid-auto-columns:76px}
 }
+@keyframes review-viewer-in{
+  from{opacity:0;transform:translateY(14px)scale(.96)}
+  to{opacity:1;transform:none}
+}
 @media (prefers-reduced-motion:reduce){
   .review-viewer-image.is-zoomed img{transition:none}
+  .review-viewer-shell{animation:none}
 }
