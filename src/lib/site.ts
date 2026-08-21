@@ -8,8 +8,14 @@ export const site = {
 
 export function whatsappUrl(productName?: string) {
   const text = productName
-    ? `Merhaba İshak Bey, ${productName} hakkında bilgi almak ve sipariş vermek istiyorum.`
-    : "Merhaba İshak Bey, ürünleriniz hakkında bilgi almak istiyorum.";
+    ? `Merhabalar, ${productName} hakkında bilgi almak ve sipariş vermek istiyorum.`
+    : "Merhabalar, ürünleriniz hakkında bilgi almak istiyorum.";
+  return `https://wa.me/${site.whatsapp}?text=${encodeURIComponent(text)}`;
+}
+
+export function cartWhatsappUrl(items: { product: { name: string; model: string }; quantity: number }[]) {
+  const lines = items.map((item) => `• ${item.product.name} (${item.product.model}) — ${item.quantity} adet`);
+  const text = ["Merhabalar, aşağıdaki ürünler hakkında bilgi almak ve sipariş vermek istiyorum:", "", ...lines].join("\n");
   return `https://wa.me/${site.whatsapp}?text=${encodeURIComponent(text)}`;
 }
 

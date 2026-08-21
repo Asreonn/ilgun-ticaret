@@ -38,7 +38,7 @@ supabase db push
 
 Migration `supabase/migrations/` altındadır ve şu yapıları oluşturur:
 
-- `products`, `product_images`, `categories`, `product_features`, `site_settings`
+- `products`, `product_images`, `categories`, `product_features`, `product_reviews`, `site_settings`
 - Yetkili UID listesi için `admin_users`
 - Yönetici görsel yüklemeleri için public `product-images` bucket
 - Anonim kullanıcılara yalnızca aktif katalog okuması
@@ -57,7 +57,9 @@ Sonra `/admin` sayfasından giriş yapılabilir. Public signup yoktur. İkinci b
 
 ## Admin kullanımı
 
-`/admin` üzerinden ürün ekleme, düzenleme, kalıcı silme, aktif/pasif yapma, fiyat/eski fiyat, stok, öne çıkarma, açıklama, kategori, sıralama, özellik ve görsel yönetimi yapılabilir. Görsel yükleme alanı dosyayı Supabase Storage'a yollar ve public URL'yi ürün kaydına ekler.
+`/admin` üzerinden ürün ekleme, düzenleme, kalıcı silme, aktif/pasif yapma, fiyat/eski fiyat, stok, öne çıkarma, açıklama, kategori, sıralama, özellik, görsel ve müşteri yorumu yönetimi yapılabilir. Görsel yükleme alanı dosyayı Supabase Storage'a yollar ve public URL'yi ürün kaydına ekler. Yeni yorumlar varsayılan olarak onaysız kaydedilir; admin onaylamadan mağazada görünmez.
+
+Sepet tarayıcıda yerel olarak saklanır. Ödeme almaz; ürün ve adet listesini profesyonel bir WhatsApp sipariş mesajına dönüştürür.
 
 Özellik alanında her satır `Etiket|Değer`, görsel alanında her satır `Yol veya URL|Alt metin` biçimindedir.
 

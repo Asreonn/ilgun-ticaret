@@ -1,14 +1,16 @@
-import { Menu, MessageCircle, X } from "lucide-react";
+import { Menu, MessageCircle, ShoppingBag, X } from "lucide-react";
 import { useState } from "react";
 import { Link, NavLink } from "react-router-dom";
 import { site, whatsappUrl } from "../lib/site";
+import { useCart } from "../context/CartContext";
 
 const nav = [
-  ["Ana Sayfa", "/"], ["Ürünler", "/products"], ["Kategoriler", "/#categories"], ["Hakkımızda", "/#about"], ["İletişim", "/#contact"]
+  ["Ana Sayfa", "/"], ["Ürünler", "/products"], ["Kategoriler", "/#categories"], ["İletişim", "/#contact"]
 ];
 
 export function Header() {
   const [open, setOpen] = useState(false);
+  const { totalItems } = useCart();
   return <>
     <div className="topbar"><div className="container topbar-inner"><span>Elektronik • Aksesuar • Küçük Ev Aletleri</span><span>{site.contact} · {site.phoneDisplay}</span></div></div>
     <header className="header">
@@ -17,11 +19,13 @@ export function Header() {
         <nav className="desktop-nav" aria-label="Ana menü">
           {nav.map(([label, to]) => to.includes("#") ? <a key={to} href={`${import.meta.env.BASE_URL}${to.slice(1)}`}>{label}</a> : <NavLink key={to} to={to}>{label}</NavLink>)}
         </nav>
+        <Link className="cart-button" to="/cart" aria-label={`Sepet, ${totalItems} ürün`}><ShoppingBag size={20}/>{totalItems > 0 && <span>{totalItems}</span>}</Link>
         <a className="button whatsapp header-cta" href={whatsappUrl()} target="_blank" rel="noreferrer"><MessageCircle size={18} /> WhatsApp</a>
         <button className="menu-button" onClick={() => setOpen((x) => !x)} aria-label={open ? "Menüyü kapat" : "Menüyü aç"} aria-expanded={open}>{open ? <X /> : <Menu />}</button>
       </div>
       {open && <nav className="mobile-nav container" aria-label="Mobil menü">
         {nav.map(([label, to]) => to.includes("#") ? <a key={to} onClick={() => setOpen(false)} href={`${import.meta.env.BASE_URL}${to.slice(1)}`}>{label}</a> : <NavLink key={to} onClick={() => setOpen(false)} to={to}>{label}</NavLink>)}
+        <NavLink className="mobile-cart-link" onClick={() => setOpen(false)} to="/cart"><ShoppingBag size={19}/> Sepetim {totalItems > 0 && <strong>{totalItems}</strong>}</NavLink>
         <a className="button whatsapp" href={whatsappUrl()} target="_blank" rel="noreferrer"><MessageCircle size={18} /> WhatsApp</a>
       </nav>}
     </header>
