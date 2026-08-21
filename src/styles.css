@@ -51,8 +51,8 @@
 .product-slider-slide{z-index:0;visibility:hidden;pointer-events:none;width:100%;position:absolute;inset:0}
 .product-slider-slide.is-active{z-index:2;visibility:visible;pointer-events:auto;position:relative}
 .product-slider-slide.is-exit{z-index:1;visibility:visible;pointer-events:none}
-.product-slider.has-slid .product-slider-slide.is-active{animation:.56s cubic-bezier(.22,1,.36,1) both slider-in-next}
-.product-slider.has-slid .product-slider-slide.is-exit{animation:.56s cubic-bezier(.22,1,.36,1) both slider-out-next}
+.product-slider.has-slid .product-slider-slide.is-active{animation:.62s cubic-bezier(.62,.02,.34,1) both slider-in-next}
+.product-slider.has-slid .product-slider-slide.is-exit{animation:.62s cubic-bezier(.62,.02,.34,1) both slider-out-next}
 .product-slider.has-slid[data-direction=previous] .product-slider-slide.is-active{animation-name:slider-in-previous}
 .product-slider.has-slid[data-direction=previous] .product-slider-slide.is-exit{animation-name:slider-out-previous}
 .product-slider-controls{justify-content:center;align-items:center;gap:12px;margin-top:14px;display:flex}
@@ -119,5 +119,5 @@
   .hero-showcase-meta strong{-webkit-line-clamp:2;min-height:2.5em}
 }
 @media (prefers-reduced-motion:reduce){
-  .product-slider-slide,.product-image-track{animation:none!important;transition:none!important}
+  .product-slider.has-slid .product-slider-slide.is-active,.product-slider.has-slid .product-slider-slide.is-exit{animation-duration:.3s!important}
 }

@@ -1,5 +1,5 @@
 import { ChevronLeft, ChevronRight } from "lucide-react";
-import { useCallback, useEffect, useRef, useState, type ReactNode } from "react";
+import { useCallback, useEffect, useLayoutEffect, useRef, useState, type ReactNode } from "react";
 
 type ProductSliderProps<T> = {
   items: T[];
@@ -36,7 +36,7 @@ export function ProductSlider<T>({
   const touchStart = useRef(0);
   const current = Math.min(index ?? internal, Math.max(items.length - 1, 0));
 
-  useEffect(() => {
+  useLayoutEffect(() => {
     if (current === lastShown.current) return;
     const from = lastShown.current;
     const length = Math.max(items.length, 1);
