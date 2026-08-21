@@ -15,7 +15,14 @@ test("ana sayfa marka ve kompakt ürün seçkisini gösterir", async () => {
   expect(screen.getByText("₺9.000,00")).toBeInTheDocument();
   expect(screen.getByText("₺499,00")).toBeInTheDocument();
   expect(screen.getByText("₺549,00")).toBeInTheDocument();
+  expect(screen.getAllByText("(0 yorum)")).toHaveLength(4);
   expect(screen.getAllByText("İLGÜN").length).toBeGreaterThan(0);
+});
+
+test("ürün detayında gerçek değerlendirme özeti görünür", () => {
+  render(<HelmetProvider><MemoryRouter initialEntries={["/products/blic-bls-92"]} future={{ v7_startTransition: true, v7_relativeSplatPath: true }}><CatalogProvider><CartProvider><App/></CartProvider></CatalogProvider></MemoryRouter></HelmetProvider>);
+  expect(screen.getByText("Henüz puanlanmadı")).toBeInTheDocument();
+  expect(screen.getByText("0 yorum")).toBeInTheDocument();
 });
 
 test("kategori yolu ilgili ürünleri filtreler", () => {

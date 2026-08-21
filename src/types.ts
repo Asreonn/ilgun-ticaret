@@ -32,6 +32,8 @@ export type Product = {
   price_source_url?: string | null;
   price_checked_at?: string | null;
   price_note?: string | null;
+  rating_average?: number;
+  review_count?: number;
   sort_order: number;
   category?: Category;
   product_images: ProductImage[];
