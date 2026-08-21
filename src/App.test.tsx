@@ -20,6 +20,7 @@ test("ana sayfa marka ve kompakt ürün seçkisini gösterir", async () => {
   expect(screen.getByText("(4 yorum)")).toBeInTheDocument();
   expect(screen.getByText("(2 yorum)")).toBeInTheDocument();
   expect(screen.getByText("Elif Kaya")).toBeInTheDocument();
+  expect(screen.getByText("13 fotoğraf")).toBeInTheDocument();
   expect(screen.getAllByText("İLGÜN").length).toBeGreaterThan(0);
   const heroImage = screen.getAllByAltText("YESIDO WB65 Parmak İzi Kilitli Akıllı Sırt Çantası")[0];
   expect(heroImage.closest(".media-loader")).toHaveClass("is-loading");

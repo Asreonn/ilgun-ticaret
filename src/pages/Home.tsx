@@ -22,7 +22,7 @@ import { ProductCard } from "../components/ProductCard";
 import { ImageWithLoader } from "../components/ImageWithLoader";
 import { ProductSlider } from "../components/ProductSlider";
 import { useCatalog } from "../context/CatalogContext";
-import { featuredStoreReviews } from "../data/reviews";
+import { customerPhotoReviews, featuredStoreReviews } from "../data/reviews";
 import { formatPrice, imageUrl, whatsappUrl } from "../lib/site";
 
 const icons = [Headphones, HousePlug, Sparkles, UserRound, Watch, Coffee, Sofa, CarFront, Shield, Glasses, MonitorPlay];
@@ -152,6 +152,24 @@ export default function Home() {
             <h2>Müşteriler ne diyor</h2>
           </div>
           <Link to="/products">Ürünleri gör <ArrowRight size={17} /></Link>
+        </div>
+        <div className="review-photos home-review-photos">
+          <div className="review-photos-head">
+            <strong>Müşteri fotoğrafları</strong>
+            <span>{customerPhotoReviews.length} fotoğraf</span>
+          </div>
+          <div className="review-photos-strip">
+            {customerPhotoReviews.map((photo) => (
+              <Link
+                key={photo.id}
+                to={`/products/${photo.productSlug}#reviews`}
+                className="review-photo-thumb"
+                aria-label={`${photo.productName} müşteri fotoğrafı, ${photo.reviewer_name}`}
+              >
+                <ImageWithLoader src={imageUrl(photo.src)} alt="" />
+              </Link>
+            ))}
+          </div>
         </div>
         <div className="testimonial-grid">
           {featuredStoreReviews.map((review) => (
