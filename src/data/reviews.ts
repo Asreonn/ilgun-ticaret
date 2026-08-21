@@ -268,26 +268,6 @@ export function ratingForProduct(productId: string, slug?: string) {
   return { average: total / list.length, count: list.length };
 }
 
-export function withCustomerPhotos<T extends Product>(product: T): T {
-  const extras = seed
-    .filter((review) => review.slug === product.slug)
-    .flatMap((review) => review.images ?? [])
-    .filter((path) => !product.product_images.some((image) => image.image_path === path));
-  if (!extras.length) return product;
-  const start = product.product_images.length;
-  return {
-    ...product,
-    product_images: [
-      ...product.product_images,
-      ...extras.map((image_path, index) => ({
-        image_path,
-        alt_text: `${product.model} müşteri fotoğrafı`,
-        sort_order: start + index
-      }))
-    ]
-  };
-}
-
 export function attachRatings<T extends Product>(products: T[]) {
   return products.map((product) => {
     const rating = ratingForProduct(product.id, product.slug);
@@ -295,28 +275,8 @@ export function attachRatings<T extends Product>(products: T[]) {
   });
 }
 
-const productNames: Record<string, string> = {
-  "yesido-wb65": "YESIDO WB65",
-  "linkage-lkb-39": "Linkage LKB-39",
-  "blic-bls-92": "BLIC BLS-92",
-  "blic-bls-96": "BLIC BLS-96",
-  "blic-bls-74": "BLIC BLS-74",
-  "yesido-ec27": "YESIDO EC27",
-  "cy-818": "CY-818"
-};
-
 export const featuredStoreReviews = [
   { ...seed[0], productName: "YESIDO WB65", productSlug: "yesido-wb65" },
   { ...seed[8], productName: "BLIC BLS-92", productSlug: "blic-bls-92" },
   { ...seed[17], productName: "YESIDO EC27", productSlug: "yesido-ec27" }
 ];
-
-export const customerPhotoReviews = seed.flatMap((review) =>
-  (review.images ?? []).map((src) => ({
-    id: `${review.id}-${src}`,
-    src,
-    reviewer_name: review.reviewer_name,
-    productSlug: review.slug,
-    productName: productNames[review.slug] || review.slug
-  }))
-);

@@ -39,15 +39,14 @@ export function CatalogProvider({ children }: { children: ReactNode }) {
         const description = local?.description.includes("\n\n") && !String(product.description || "").includes("\n\n")
           ? local.description
           : product.description;
-        const remoteImages = [...(product.product_images ?? [])].sort((a: { sort_order: number }, b: { sort_order: number }) => a.sort_order - b.sort_order);
-        const seen = new Set(remoteImages.map((image: { image_path: string }) => image.image_path));
-        const extraImages = (local?.product_images ?? []).filter((image) => !seen.has(image.image_path));
         return {
           ...product,
           description,
           rating_average: rating ? rating.total / rating.count : fallback.average,
           review_count: rating?.count ?? fallback.count,
-          product_images: [...remoteImages, ...extraImages],
+          product_images: [...(product.product_images ?? [])]
+            .filter((image) => !String(image.image_path || "").startsWith("images/reviews/"))
+            .sort((a, b) => a.sort_order - b.sort_order),
           product_features: [...(product.product_features ?? [])].sort((a, b) => a.sort_order - b.sort_order)
         };
       }) as Product[];

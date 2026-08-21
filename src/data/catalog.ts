@@ -1,5 +1,5 @@
 import type { Category, Product } from "../types";
-import { attachRatings, withCustomerPhotos } from "./reviews";
+import { attachRatings } from "./reviews";
 import { importedCategories, importedProducts } from "./importedProducts";
 
 export const categories: Category[] = [
@@ -84,4 +84,4 @@ const catalogProducts: Product[] = [
   ...importedProducts.map((product) => ({ ...product, category: category(product.category_id) }))
 ];
 
-export const initialProducts = attachRatings(catalogProducts.map((product) => withCustomerPhotos(product)));
+export const initialProducts = attachRatings(catalogProducts);

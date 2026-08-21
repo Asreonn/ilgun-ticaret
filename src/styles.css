@@ -431,14 +431,11 @@
 .admin-review-photos{display:flex;gap:8px;margin-top:8px}
 .admin-review-photos img{width:56px;height:56px;object-fit:cover;border-radius:8px;border:1px solid var(--border)}
 a.review-photo-thumb{display:block;color:inherit}
-.home-review-photos{margin:0 0 22px}
-.home-review-photos .review-photos-strip{grid-auto-columns:108px}
 @media (width<=860px){
   .review-viewer-shell{grid-template-columns:1fr;max-height:96vh}
   .review-viewer-stage{min-height:48vh}
   .review-viewer-meta{padding:16px}
   .review-photos-strip{grid-auto-columns:76px}
-  .home-review-photos .review-photos-strip{grid-auto-columns:88px}
 }
 @media (prefers-reduced-motion:reduce){
   .review-viewer-image.is-zoomed img{transition:none}
