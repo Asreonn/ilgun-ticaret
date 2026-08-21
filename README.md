@@ -90,7 +90,7 @@ npm run preview
 
 ## GitHub Pages deployment
 
-`main` branch'e her push `.github/workflows/deploy-pages.yml` akışını tetikler. Repository secrets:
+`main` branch'e her push `.github/workflows/deploy-pages.yml` akışını tetikler. Production build, GitHub Pages'te doğrudan açılan ve yenilenen katalog URL'lerinin HTTP 200 dönmesi için bilinen rotalara statik giriş dosyaları üretir. Repository secrets:
 
 - `VITE_SUPABASE_URL`
 - `VITE_SUPABASE_PUBLISHABLE_KEY`
