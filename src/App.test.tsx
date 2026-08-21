@@ -9,7 +9,7 @@ import { CartProvider } from "./context/CartContext";
 
 test("ana sayfa marka ve kompakt ürün seçkisini gösterir", async () => {
   render(<HelmetProvider><MemoryRouter future={{ v7_startTransition: true, v7_relativeSplatPath: true }}><CatalogProvider><CartProvider><App/></CartProvider></CatalogProvider></MemoryRouter></HelmetProvider>);
-  expect(screen.getByText("Günlük Hayatı", { exact: false })).toBeInTheDocument();
+  expect(screen.getByRole("heading", { name: "Teknoloji seçkisini keşfedin" })).toBeInTheDocument();
   expect(screen.getAllByText("Sepete Ekle")).toHaveLength(4);
   expect(screen.getByText("₺6.899,00")).toBeInTheDocument();
   expect(screen.getByText("₺9.000,00")).toBeInTheDocument();
