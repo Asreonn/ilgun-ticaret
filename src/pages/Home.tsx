@@ -1,10 +1,16 @@
 import {
   ArrowRight,
   BadgeCheck,
+  CarFront,
+  Coffee,
+  Glasses,
   Headphones,
   HousePlug,
   MessageCircle,
+  MonitorPlay,
   PackageCheck,
+  Shield,
+  Sofa,
   Sparkles,
   Star,
   UserRound,
@@ -19,7 +25,7 @@ import { useCatalog } from "../context/CatalogContext";
 import { featuredStoreReviews } from "../data/reviews";
 import { formatPrice, imageUrl, whatsappUrl } from "../lib/site";
 
-const icons = [Headphones, HousePlug, Sparkles, UserRound, Watch];
+const icons = [Headphones, HousePlug, Sparkles, UserRound, Watch, Coffee, Sofa, CarFront, Shield, Glasses, MonitorPlay];
 
 export default function Home() {
   const { products, categories, loading, error } = useCatalog();

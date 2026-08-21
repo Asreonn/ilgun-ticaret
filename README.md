@@ -73,6 +73,14 @@ public/images/products/<urun-slug>/main.webp
 public/images/products/<urun-slug>/01.webp
 ```
 
+Yeni ürün görsellerini kaynak sayfadan indirmek için:
+
+```bash
+node scripts/import-product-images.mjs
+node scripts/sync-catalog-import.mjs
+node scripts/validate-catalog.mjs
+```
+
 Kart görselleri 1:1 alanda `object-fit: contain` kullanır. Yeni bir başlangıç asset'i eklendiğinde WebP, temiz arka plan ve tercihen en az 800×800 px kullanın. Dış kaynağı `ASSET_PROVENANCE.md` dosyasına ekleyin.
 
 ## İletişim ayarları

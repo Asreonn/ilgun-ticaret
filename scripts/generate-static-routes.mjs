@@ -1,24 +1,26 @@
-import { copyFile, mkdir } from "node:fs/promises";
+import { copyFile, mkdir, readdir } from "node:fs/promises";
 import { resolve } from "node:path";
 
+const categorySlugs = [
+  "ses-kulaklik",
+  "elektronik-aksesuar",
+  "kucuk-ev-aletleri",
+  "kisisel-bakim",
+  "canta-aksesuar",
+  "kahve-mutfak",
+  "ev-yasam",
+  "oto-aksesuar",
+  "guvenlik-seyahat",
+  "ai-giyilebilir-teknoloji",
+  "goruntu-eglence",
+];
+
+const staticPages = ["products", "categories", "contact", "cart", "admin"];
+const productSlugs = await readdir(resolve("public/images/products"));
 const routes = [
-  "products",
-  "categories",
-  "contact",
-  "cart",
-  "admin",
-  "products/category/ses-kulaklik",
-  "products/category/elektronik-aksesuar",
-  "products/category/kucuk-ev-aletleri",
-  "products/category/kisisel-bakim",
-  "products/category/canta-aksesuar",
-  "products/yesido-wb65",
-  "products/linkage-lkb-39",
-  "products/blic-bls-92",
-  "products/blic-bls-96",
-  "products/blic-bls-74",
-  "products/yesido-ec27",
-  "products/cy-818",
+  ...staticPages,
+  ...categorySlugs.map((slug) => `products/category/${slug}`),
+  ...productSlugs.map((slug) => `products/${slug}`),
 ];
 
 const source = resolve("dist/index.html");

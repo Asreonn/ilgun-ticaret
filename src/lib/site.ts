@@ -35,6 +35,6 @@ export function imageUrl(path: string) {
 }
 
 export function formatPrice(price: number | null, currency = "TRY") {
-  if (price == null) return "Güncel teklif alın";
+  if (price == null) return "Fiyat için iletişime geçin";
   return new Intl.NumberFormat("tr-TR", { style: "currency", currency }).format(price);
 }

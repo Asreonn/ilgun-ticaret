@@ -45,7 +45,7 @@ test("ürün detayında gerçek değerlendirme özeti görünür", () => {
 test("kategori yolu ilgili ürünleri filtreler", () => {
   const { container } = render(<HelmetProvider><MemoryRouter initialEntries={["/products/category/ses-kulaklik"]} future={{ v7_startTransition: true, v7_relativeSplatPath: true }}><CatalogProvider><CartProvider><App/></CartProvider></CatalogProvider></MemoryRouter></HelmetProvider>);
   expect(screen.getByRole("heading", { name: "Ses & Kulaklık ürünleri" })).toBeInTheDocument();
-  expect(container.querySelectorAll(".product-card")).toHaveLength(4);
+  expect(container.querySelectorAll(".product-card")).toHaveLength(5);
 });
 
 test("iletişim sayfası telefon, konum ve WhatsApp formunu sunar", () => {

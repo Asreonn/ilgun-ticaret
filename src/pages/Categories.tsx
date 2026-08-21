@@ -1,10 +1,10 @@
-import { ArrowRight, Headphones, HousePlug, Sparkles, UserRound, Watch } from "lucide-react";
+import { ArrowRight, CarFront, Coffee, Glasses, Headphones, HousePlug, MonitorPlay, Shield, Sofa, Sparkles, UserRound, Watch } from "lucide-react";
 import { Link } from "react-router-dom";
 import { PageMeta } from "../components/PageMeta";
 import { Reveal } from "../components/Reveal";
 import { useCatalog } from "../context/CatalogContext";
 
-const icons = [Headphones, HousePlug, Sparkles, UserRound, Watch];
+const icons = [Headphones, HousePlug, Sparkles, UserRound, Watch, Coffee, Sofa, CarFront, Shield, Glasses, MonitorPlay];
 
 export default function Categories() {
   const { categories, products, loading } = useCatalog();

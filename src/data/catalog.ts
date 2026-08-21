@@ -1,12 +1,14 @@
 import type { Category, Product } from "../types";
 import { attachRatings } from "./reviews";
+import { importedCategories, importedProducts } from "./importedProducts";
 
 export const categories: Category[] = [
   { id: "audio", slug: "ses-kulaklik", name: "Ses & Kulaklık", description: "Kulaklıklar ve taşınabilir ses ürünleri", sort_order: 1, active: true },
   { id: "electronics", slug: "elektronik-aksesuar", name: "Elektronik Aksesuar", description: "Günlük kullanım için pratik elektronik aksesuarlar", sort_order: 2, active: true },
   { id: "home", slug: "kucuk-ev-aletleri", name: "Küçük Ev Aletleri", description: "Mutfak ve ev yaşamını kolaylaştıran ürünler", sort_order: 3, active: true },
   { id: "care", slug: "kisisel-bakim", name: "Kişisel Bakım", description: "Günlük bakım ve rahatlama ürünleri", sort_order: 4, active: true },
-  { id: "bags", slug: "canta-aksesuar", name: "Çanta & Aksesuar", description: "Teknolojiyle uyumlu çanta ve aksesuarlar", sort_order: 5, active: true }
+  { id: "bags", slug: "canta-aksesuar", name: "Çanta & Aksesuar", description: "Teknolojiyle uyumlu çanta ve aksesuarlar", sort_order: 5, active: true },
+  ...importedCategories
 ];
 
 const category = (id: string) => categories.find((item) => item.id === id)!;
@@ -78,7 +80,8 @@ const catalogProducts: Product[] = [
     main_image: image("cy-818", "main"), source_url: "https://www.victoriastore.com.py/item/massageador-cervical-shoulder-neck-cy-818-10w-verd766311", category: category("care"),
     product_images: ["main", "01"].map((name, i) => ({ image_path: image("cy-818", name), alt_text: `CY-818 yeşil masaj aleti ${i + 1}`, sort_order: i })),
     product_features: ["Isıtmalı kullanım", "Derin doku masajı", "Ergonomik tasarım", "USB ile şarj", "Taşınabilir yapı", "Boyun, omuz, sırt ve bel kullanımına uygun"].map((x, i) => feature(x, "", i))
-  }
+  },
+  ...importedProducts.map((product) => ({ ...product, category: category(product.category_id) }))
 ];
 
 export const initialProducts = attachRatings(catalogProducts);
